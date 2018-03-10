@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.sys.SysUserMapper">
+  <resultMap id="BaseResultMap" type="space.zero.business.module.sys.model.SysUser">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="ID_CARD" jdbcType="VARCHAR" property="idCard" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="QQ" jdbcType="VARCHAR" property="qq" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="AVATAR" jdbcType="VARCHAR" property="avatar" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+  </resultMap>
+</mapper>

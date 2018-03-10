@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.sys.SysMenuMapper">
+  <resultMap id="BaseResultMap" type="space.zero.business.module.sys.model.SysMenu">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="DISPLAY_NAME" jdbcType="VARCHAR" property="displayName" />
+    <result column="ICON_CLASS" jdbcType="VARCHAR" property="iconClass" />
+    <result column="ICON_URL" jdbcType="VARCHAR" property="iconUrl" />
+    <result column="PERMS" jdbcType="VARCHAR" property="perms" />
+    <result column="TYPE" jdbcType="INTEGER" property="type" />
+    <result column="ORDER_NUM" jdbcType="INTEGER" property="orderNum" />
+    <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+    <result column="IS_SHOW" jdbcType="VARCHAR" property="isShow" />
+    <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="URL" jdbcType="LONGVARCHAR" property="url" />
+  </resultMap>
+</mapper>

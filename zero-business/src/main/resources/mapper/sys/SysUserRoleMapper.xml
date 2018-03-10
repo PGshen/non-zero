@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.sys.SysUserRoleMapper">
+  <resultMap id="BaseResultMap" type="space.zero.business.module.sys.model.SysUserRole">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+  </resultMap>
+</mapper>
