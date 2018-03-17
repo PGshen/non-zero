@@ -3,6 +3,7 @@ package space.zero.business.module.sys.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import space.zero.business.module.sys.model.SysUserDetails;
+import space.zero.business.module.sys.param.request.CondRequest;
 import space.zero.business.module.sys.param.request.SysUserListRequest;
 import space.zero.business.module.sys.param.request.UserRoleListRequest;
 import space.zero.business.module.sys.service.SysUserRoleService;
@@ -30,23 +31,11 @@ public class SysUserController {
     @Autowired
     private SysUserRoleService sysUserRoleService;
 
-//    @PostMapping
-//    public Result add(@RequestBody SysUser sysUser) {
-//        SysUser tmp = sysUserService.save(sysUser);
-//        return ResultGenerator.genSuccessResult(tmp);
-//    }
-
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable String id) {
         sysUserService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
-
-//    @PutMapping
-//    public Result update(@RequestBody SysUser sysUser) {
-//        SysUser tmp = sysUserService.update(sysUser);
-//        return ResultGenerator.genSuccessResult(tmp);
-//    }
 
     @GetMapping("/{id}")
     public Result detail(@PathVariable String id) {
@@ -54,11 +43,20 @@ public class SysUserController {
         return ResultGenerator.genSuccessResult(sysUser);
     }
 
-    @GetMapping
-    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
-        List<SysUser> list = sysUserService.findAll();
+//    @GetMapping
+//    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
+//        PageHelper.startPage(page, size);
+//        List<SysUser> list = sysUserService.findAll();
+//        PageInfo pageInfo = new PageInfo(list);
+//        return ResultGenerator.genSuccessResult(pageInfo);
+//    }
+
+    @PostMapping("/list")
+    public Result list(@RequestBody CondRequest condRequest){
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        List<SysUser> list = sysUserService.findBy(condRequest.getCond());
         PageInfo pageInfo = new PageInfo(list);
+        pageInfo.setOrderBy(condRequest.getOrder());
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
@@ -89,10 +87,10 @@ public class SysUserController {
     }
 
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @PostMapping
     public Result add(@RequestBody SysUser user) {
-        SysUser existUser = sysUserService.findBy("loginName",user.getLoginName()).get(0);
-        if(null == existUser) {
+        List<SysUser> existUser = sysUserService.findBy("loginName",user.getLoginName());
+        if(existUser.size() == 0) {
             sysUserService.save(user);
             //添加用户角色
             sysUserRoleService.addRoles(user.getId(), user.getRole());
@@ -102,7 +100,7 @@ public class SysUserController {
         }
     }
 
-    @RequestMapping(value = "update", method = RequestMethod.PUT)
+    @PutMapping
     public Result update(@RequestBody SysUser user) {
 //        SysUser existUser = sysUserService.getByLoginName(user.getLoginName());
         SysUser existUser = sysUserService.findById(user.getId());
@@ -115,7 +113,7 @@ public class SysUserController {
         }
     }
 
-    @RequestMapping(value = "userRoleList", method = RequestMethod.POST)
+    @RequestMapping(value = "userrolelist", method = RequestMethod.POST)
     public Result roleList(@RequestBody UserRoleListRequest userRoleListRequest){
         return ResultGenerator.genSuccessResult(sysUserService.findUserRoleList(userRoleListRequest.getUserId()));
     }

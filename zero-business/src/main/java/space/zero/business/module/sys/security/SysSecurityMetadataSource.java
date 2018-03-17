@@ -37,15 +37,15 @@ public class SysSecurityMetadataSource implements SecurityMetadataSource {
         List<SysMenu> sysMenus = sysMenuService.findAll();
         for(SysMenu sysMenu : sysMenus) {
             array = new ArrayList<>();
-            if (!sysMenu.getPerms().isEmpty()){
-                List<String> perms = Arrays.asList(sysMenu.getPerms().split(","));
+            if (!sysMenu.getPerm().isEmpty()){
+                List<String> perms = Arrays.asList(sysMenu.getPerm().split(","));
                 for(String perm : perms) {
                     cfg = new SecurityConfig(perm);
                     array.add(cfg);
                 }
 
                 // 用权限的getUrl() 作为map的key，用ConfigAttribute的集合作为 value，
-                map.put(sysMenu.getUrl(), array);
+                map.put(sysMenu.getPath(), array);
             }
         }
 

@@ -1,8 +1,10 @@
 package space.zero.business.module.sys.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import space.zero.business.module.sys.dao.SysRoleMenuMapper;
 import space.zero.business.module.sys.model.SysRoleMenu;
 import space.zero.business.module.sys.service.SysRoleMenuService;
+import space.zero.common.keyGenerator.KeyGenerator;
 import space.zero.common.utils.StringUtils;
 import space.zero.core.service.AbstractDeleteFlagService;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import java.util.List;
 public class SysRoleMenuServiceImpl extends AbstractDeleteFlagService<SysRoleMenu> implements SysRoleMenuService {
     @Resource
     private SysRoleMenuMapper sysRoleMenuMapper;
+    @Autowired
+    private KeyGenerator<String> keyGenerator;
 
     public List<SysRoleMenu> findAllByRoleId(String roleId){
         if (!StringUtils.isBlank(roleId) && !StringUtils.isEmpty(roleId)) {
@@ -38,6 +42,9 @@ public class SysRoleMenuServiceImpl extends AbstractDeleteFlagService<SysRoleMen
 
     @Override
     public boolean preInsert(SysRoleMenu data) {
+        if (StringUtils.isBlank(data.getId())) {
+            data.setId(keyGenerator.getNext());
+        }
         data.setCreatedTime(new Timestamp(new Date().getTime()));
         return super.preInsert(data);
     }

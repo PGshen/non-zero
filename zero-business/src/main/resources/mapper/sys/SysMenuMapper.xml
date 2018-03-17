@@ -8,17 +8,19 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="DISPLAY_NAME" jdbcType="VARCHAR" property="displayName" />
-    <result column="ICON_CLASS" jdbcType="VARCHAR" property="iconClass" />
-    <result column="ICON_URL" jdbcType="VARCHAR" property="iconUrl" />
-    <result column="PERMS" jdbcType="VARCHAR" property="perms" />
+    <result column="ICON" jdbcType="VARCHAR" property="icon" />
+    <result column="PERM" jdbcType="VARCHAR" property="perm" />
     <result column="TYPE" jdbcType="INTEGER" property="type" />
     <result column="ORDER_NUM" jdbcType="INTEGER" property="orderNum" />
     <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
-    <result column="IS_SHOW" jdbcType="VARCHAR" property="isShow" />
     <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
     <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="URL" jdbcType="LONGVARCHAR" property="url" />
+    <result column="HIDDEN" jdbcType="VARCHAR" property="hidden" />
+    <result column="ALWAYS_SHOW" jdbcType="VARCHAR" property="alwaysShow" />
+    <result column="COMPONENT" jdbcType="VARCHAR" property="component" />
+    <result column="REDIRECT" jdbcType="VARCHAR" property="redirect" />
+    <result column="CREATE_USRE" jdbcType="VARCHAR" property="createUsre" />
+    <result column="PATH" jdbcType="LONGVARCHAR" property="path" />
   </resultMap>
 </mapper>

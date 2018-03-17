@@ -15,6 +15,7 @@ import space.zero.business.module.sys.model.SysUser;
 import space.zero.business.module.sys.model.SysUserDetails;
 import space.zero.business.module.sys.service.SysUserRoleService;
 import space.zero.business.module.sys.service.SysUserService;
+import space.zero.common.keyGenerator.KeyGenerator;
 import space.zero.common.utils.StringUtils;
 import space.zero.core.service.AbstractDeleteFlagService;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,8 @@ import static space.zero.core.constant.Constant.DELETE_FLAG_FALSE;
 public class SysUserServiceImpl extends AbstractDeleteFlagService<SysUser> implements SysUserService {
     private static final Logger logger = LoggerFactory.getLogger(SysUserService.class);
 
-
-    @Resource
-    private SysUserMapper sysUserMapper;
+    @Autowired
+    private KeyGenerator<String> keyGenerator;
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
     @Autowired
@@ -128,6 +128,23 @@ public class SysUserServiceImpl extends AbstractDeleteFlagService<SysUser> imple
 
     public List<String> findUserRoleList(String userId){
         return sysUserRoleService.getRoleByUserId(userId);
+    }
+
+
+    @Override
+    public boolean preInsert(SysUser data) {
+        if (StringUtils.isBlank(data.getId())) {
+            data.setId(keyGenerator.getNext());
+        }
+        data.setCreatedTime(new Timestamp(new Date().getTime()));
+        return super.preInsert(data);
+    }
+
+    @Override
+    public boolean preUpdate(SysUser data){
+        SysUser sysUser = findById(data.getId());
+        data.setCreatedTime(sysUser.getCreatedTime());
+        return super.preUpdate(data);
     }
 
 

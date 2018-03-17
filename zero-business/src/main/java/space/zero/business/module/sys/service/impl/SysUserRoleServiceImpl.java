@@ -1,9 +1,12 @@
 package space.zero.business.module.sys.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import space.zero.business.module.sys.dao.SysUserRoleMapper;
 import space.zero.business.module.sys.model.SysRole;
 import space.zero.business.module.sys.model.SysUserRole;
 import space.zero.business.module.sys.service.SysUserRoleService;
+import space.zero.common.keyGenerator.KeyGenerator;
+import space.zero.common.utils.StringUtils;
 import space.zero.core.service.AbstractDeleteFlagService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,8 @@ import java.util.List;
 public class SysUserRoleServiceImpl extends AbstractDeleteFlagService<SysUserRole> implements SysUserRoleService {
     @Resource
     private SysUserRoleMapper sysUserRoleMapper;
+    @Autowired
+    private KeyGenerator<String> keyGenerator;
 
     /**
      * 给用户分配角色
@@ -68,6 +73,9 @@ public class SysUserRoleServiceImpl extends AbstractDeleteFlagService<SysUserRol
 
     @Override
     public boolean preInsert(SysUserRole data) {
+        if (StringUtils.isBlank(data.getId())) {
+            data.setId(keyGenerator.getNext());
+        }
         data.setCreatedTime(new Timestamp(new Date().getTime()));
         return super.preInsert(data);
     }

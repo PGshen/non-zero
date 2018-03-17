@@ -11,6 +11,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static space.zero.core.constant.Constant.DELETE_FLAG_FALSE;
 
 /**
  * 基于通用MyBatis Mapper插件的Service接口的实现
@@ -113,6 +116,51 @@ public abstract class AbstractService<T> implements Service<T> {
         return null;
     }
 
+    /**
+     * 通过map获得查询条件
+     * @param condition
+     * @return
+     */
+    @Override
+    public List<T> findBy(Map<String, Object> condition) {
+        if (preGet(condition)){
+            try {
+                T model = modelClass.newInstance();
+                for (Map.Entry<String, Object> cond : condition.entrySet()){
+                    Field field = modelClass.getDeclaredField(cond.getKey());
+                    field.setAccessible(true);
+                    field.set(model, cond.getValue());
+                }
+                List<T> tList = mapper.select(model);
+                for (T tmp : tList){
+                    afterGet(tmp);
+                }
+                return tList;
+            } catch (ReflectiveOperationException e) {
+                throw new ServiceException(e.getMessage(), e);
+            }
+        }
+        return null;
+    }
+
+
+    /***
+     * 通过model
+     * @param
+     * @return
+     */
+//    public List<T> findBy(T model){
+//        if (preGet(model)){
+//            List<T> tList = mapper.select(model);
+//            for (T tmp : tList){
+//                afterGet(tmp);
+//            }
+//            return tList;
+//        }
+//        return null;
+//    }
+
+    @Override
     public List<T> findByIds(String ids) {
         if (preGet(ids)){
             List<T> tList = mapper.selectByIds(ids);
@@ -124,6 +172,7 @@ public abstract class AbstractService<T> implements Service<T> {
         return null;
     }
 
+    @Override
     public List<T> findByCondition(Condition condition) {
         if (preGet(condition)){
             List<T> tList = mapper.selectByCondition(condition);
@@ -135,6 +184,7 @@ public abstract class AbstractService<T> implements Service<T> {
         return null;
     }
 
+    @Override
     public List<T> findAll() {
         List<T> tList = mapper.selectAll();
         for (T t : tList){

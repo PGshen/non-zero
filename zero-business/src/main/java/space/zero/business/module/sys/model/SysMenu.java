@@ -26,30 +26,23 @@ public class SysMenu extends BaseEntity {
      */
     @Column(name = "NAME")
     private String name;
-
     /**
-     * 别名
+     * 显示名称
      */
-    @Column(name = "DISPLAY_NAME")
-    private String displayName;
-
-    /**
-     * 图标对应的class
-     */
-    @Column(name = "ICON_CLASS")
-    private String iconClass;
+    @Column(name = "TITLE")
+    private String title;
 
     /**
      * 图标的url
      */
-    @Column(name = "ICON_URL")
-    private String iconUrl;
+    @Column(name = "ICON")
+    private String icon;
 
     /**
-     * 菜单需要的权限，多个权限采用，分割（sys:user:list,sys:user:save）
+     * 菜单授权标识（格式如sys:user:list,sys:user:save）
      */
-    @Column(name = "PERMS")
-    private String perms;
+    @Column(name = "PERM")
+    private String perm;
 
     /**
      * 菜单类型（0：目录   1：菜单   2：按钮或其他可点击的元素）
@@ -67,19 +60,13 @@ public class SysMenu extends BaseEntity {
      * 是否删除(1:删除  0:未删除)
      */
     @Column(name = "IS_DELETE")
-    private transient String isDelete;
-
-    /**
-     * 是否显示(1:显示  0:不显示)
-     */
-    @Column(name = "IS_SHOW")
-    private transient String isShow;
+    private String isDelete;
 
     /**
      * 是否启用(1:启用  0:不启用)
      */
     @Column(name = "IS_ENABLE")
-    private transient String isEnable;
+    private String isEnable;
 
     @Column(name = "CREATED_TIME")
     private Date createdTime;
@@ -88,10 +75,40 @@ public class SysMenu extends BaseEntity {
     private Date updateTime;
 
     /**
-     * 菜单URL
+     * 是否隐藏菜单(1:隐藏 0:不隐藏)
      */
-    @Column(name = "URL")
-    private String url;
+    @Column(name = "HIDDEN")
+    private String hidden;
+
+    /**
+     * 是否作为子菜单显示(1:是 0:否)
+     */
+    @Column(name = "ALWAYS_SHOW")
+    private String alwaysShow;
+
+    /**
+     * 组件路径
+     */
+    @Column(name = "COMPONENT")
+    private String component;
+
+    /**
+     * 是否重定向路径,默认'noredirect'
+     */
+    @Column(name = "REDIRECT")
+    private String redirect;
+
+    /**
+     * 创建者
+     */
+    @Column(name = "CREATE_USER")
+    private String createUser;
+
+    /**
+     * 菜单path
+     */
+    @Column(name = "PATH")
+    private String path;
 
     /**
      * 获取菜单id
@@ -147,76 +164,48 @@ public class SysMenu extends BaseEntity {
         this.name = name;
     }
 
-    /**
-     * 获取别名
-     *
-     * @return DISPLAY_NAME - 别名
-     */
-    public String getDisplayName() {
-        return displayName;
+    public String getTitle() {
+        return title;
     }
 
-    /**
-     * 设置别名
-     *
-     * @param displayName 别名
-     */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    /**
-     * 获取图标对应的class
-     *
-     * @return ICON_CLASS - 图标对应的class
-     */
-    public String getIconClass() {
-        return iconClass;
-    }
-
-    /**
-     * 设置图标对应的class
-     *
-     * @param iconClass 图标对应的class
-     */
-    public void setIconClass(String iconClass) {
-        this.iconClass = iconClass;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
      * 获取图标的url
      *
-     * @return ICON_URL - 图标的url
+     * @return ICON - 图标的url
      */
-    public String getIconUrl() {
-        return iconUrl;
+    public String getIcon() {
+        return icon;
     }
 
     /**
      * 设置图标的url
      *
-     * @param iconUrl 图标的url
+     * @param icon 图标的url
      */
-    public void setIconUrl(String iconUrl) {
-        this.iconUrl = iconUrl;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     /**
-     * 获取菜单需要的权限，多个权限采用，分割（sys:user:list,sys:user:save）
+     * 获取菜单授权标识（格式如sys:user:list,sys:user:save）
      *
-     * @return PERMS - 菜单需要的权限，多个权限采用，分割（sys:user:list,sys:user:save）
+     * @return PERM - 菜单授权标识（格式如sys:user:list,sys:user:save）
      */
-    public String getPerms() {
-        return perms;
+    public String getPerm() {
+        return perm;
     }
 
     /**
-     * 设置菜单需要的权限，多个权限采用，分割（sys:user:list,sys:user:save）
+     * 设置菜单授权标识（格式如sys:user:list,sys:user:save）
      *
-     * @param perms 菜单需要的权限，多个权限采用，分割（sys:user:list,sys:user:save）
+     * @param perm 菜单授权标识（格式如sys:user:list,sys:user:save）
      */
-    public void setPerms(String perms) {
-        this.perms = perms;
+    public void setPerm(String perm) {
+        this.perm = perm;
     }
 
     /**
@@ -274,24 +263,6 @@ public class SysMenu extends BaseEntity {
     }
 
     /**
-     * 获取是否显示(1:显示  0:不显示)
-     *
-     * @return IS_SHOW - 是否显示(1:显示  0:不显示)
-     */
-    public String getIsShow() {
-        return isShow;
-    }
-
-    /**
-     * 设置是否显示(1:显示  0:不显示)
-     *
-     * @param isShow 是否显示(1:显示  0:不显示)
-     */
-    public void setIsShow(String isShow) {
-        this.isShow = isShow;
-    }
-
-    /**
      * 获取是否启用(1:启用  0:不启用)
      *
      * @return IS_ENABLE - 是否启用(1:启用  0:不启用)
@@ -338,20 +309,110 @@ public class SysMenu extends BaseEntity {
     }
 
     /**
-     * 获取菜单URL
+     * 获取是否隐藏菜单(1:隐藏 0:不隐藏)
      *
-     * @return URL - 菜单URL
+     * @return HIDDEN - 是否隐藏菜单(1:隐藏 0:不隐藏)
      */
-    public String getUrl() {
-        return url;
+    public String getHidden() {
+        return hidden;
     }
 
     /**
-     * 设置菜单URL
+     * 设置是否隐藏菜单(1:隐藏 0:不隐藏)
      *
-     * @param url 菜单URL
+     * @param hidden 是否隐藏菜单(1:隐藏 0:不隐藏)
      */
-    public void setUrl(String url) {
-        this.url = url;
+    public void setHidden(String hidden) {
+        this.hidden = hidden;
+    }
+
+    /**
+     * 获取是否作为子菜单显示(1:是 0:否)
+     *
+     * @return ALWAYS_SHOW - 是否作为子菜单显示(1:是 0:否)
+     */
+    public String getAlwaysShow() {
+        return alwaysShow;
+    }
+
+    /**
+     * 设置是否作为子菜单显示(1:是 0:否)
+     *
+     * @param alwaysShow 是否作为子菜单显示(1:是 0:否)
+     */
+    public void setAlwaysShow(String alwaysShow) {
+        this.alwaysShow = alwaysShow;
+    }
+
+    /**
+     * 获取组件路径
+     *
+     * @return COMPONENT - 组件路径
+     */
+    public String getComponent() {
+        return component;
+    }
+
+    /**
+     * 设置组件路径
+     *
+     * @param component 组件路径
+     */
+    public void setComponent(String component) {
+        this.component = component;
+    }
+
+    /**
+     * 获取是否重定向路径,默认'noredirect'
+     *
+     * @return REDIRECT - 是否重定向路径,默认'noredirect'
+     */
+    public String getRedirect() {
+        return redirect;
+    }
+
+    /**
+     * 设置是否重定向路径,默认'noredirect'
+     *
+     * @param redirect 是否重定向路径,默认'noredirect'
+     */
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
+    }
+
+    /**
+     * 获取创建者
+     *
+     * @return CREATE_USRE - 创建者
+     */
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    /**
+     * 设置创建者
+     *
+     * @param createUser 创建者
+     */
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    /**
+     * 获取菜单path
+     *
+     * @return PATH - 菜单path
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * 设置菜单path
+     *
+     * @param path 菜单path
+     */
+    public void setPath(String path) {
+        this.path = path;
     }
 }

@@ -1,5 +1,6 @@
 package space.zero.business.module.sys.web;
 
+import space.zero.business.module.sys.param.request.CondRequest;
 import space.zero.business.module.sys.param.request.RoleAuthListRequest;
 import space.zero.business.module.sys.param.request.RoleAuthRequest;
 import space.zero.core.result.Result;
@@ -22,16 +23,10 @@ public class SysRoleController {
     @Resource
     private SysRoleService sysRoleService;
 
-//    @PostMapping
-//    public Result add(@RequestBody SysRole sysRole) {
-//        SysRole tmp = sysRoleService.save(sysRole);
-//        return ResultGenerator.genSuccessResult(tmp);
-//    }
-
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @PostMapping
     public Result add(@RequestBody SysRole role) {
-        SysRole existRole = sysRoleService.findBy("name",role.getName()).get(0);
-        if(null == existRole) {
+        List<SysRole> existRole = sysRoleService.findBy("name",role.getName());
+        if(0 == existRole.size()) {
             sysRoleService.save(role);
             return ResultGenerator.genSuccessResult("operation succeeded");
         } else {
@@ -57,11 +52,20 @@ public class SysRoleController {
         return ResultGenerator.genSuccessResult(sysRole);
     }
 
-    @GetMapping
-    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
-        List<SysRole> list = sysRoleService.findAll();
+//    @GetMapping
+//    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
+//        PageHelper.startPage(page, size);
+//        List<SysRole> list = sysRoleService.findAll();
+//        PageInfo pageInfo = new PageInfo(list);
+//        return ResultGenerator.genSuccessResult(pageInfo);
+//    }
+
+    @PostMapping("/list")
+    public Result list(@RequestBody CondRequest condRequest){
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        List<SysRole> list = sysRoleService.findBy(condRequest.getCond());
         PageInfo pageInfo = new PageInfo(list);
+        pageInfo.setOrderBy(condRequest.getOrder());
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 

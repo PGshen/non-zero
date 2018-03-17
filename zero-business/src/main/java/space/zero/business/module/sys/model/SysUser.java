@@ -16,7 +16,6 @@ public class SysUser extends BaseEntity {
      */
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "LOGIN_NAME")

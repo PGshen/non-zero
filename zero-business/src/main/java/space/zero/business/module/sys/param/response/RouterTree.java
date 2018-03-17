@@ -1,41 +1,34 @@
 package space.zero.business.module.sys.param.response;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by PG_shen
- * Date : 3/8/18
- * Time : 2:37 PM
+ * Date : 3/16/18
+ * Time : 2:26 PM
  */
-public class SysMenuTree implements Serializable{
+public class RouterTree {
     private String id;
-
-    private String parentId;
 
     private String name;
 
     private String title;
 
     private String icon;
-    
+
     private String path;
-
-    private String perm;
-
-    private Integer type;
 
     private Integer orderNum;
 
     private String hidden;
 
     private String alwaysShow;
-    
+
     private String component;
-    
+
     private String redirect;
 
-    private List<SysMenuTree> children;
+    private List<RouterTree> children;
 
     public String getId() {
         return id;
@@ -43,14 +36,6 @@ public class SysMenuTree implements Serializable{
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
     }
 
     public String getName() {
@@ -85,12 +70,12 @@ public class SysMenuTree implements Serializable{
         this.path = path;
     }
 
-    public String getPerm() {
-        return perm;
+    public Integer getOrderNum() {
+        return orderNum;
     }
 
-    public void setPerm(String perm) {
-        this.perm = perm;
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 
     public String getHidden() {
@@ -125,27 +110,11 @@ public class SysMenuTree implements Serializable{
         this.redirect = redirect;
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Integer getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
-    }
-
-    public List<SysMenuTree> getChildren() {
+    public List<RouterTree> getChildren() {
         return children;
     }
 
-    public void setChildren(List<SysMenuTree> children) {
+    public void setChildren(List<RouterTree> children) {
         this.children = children;
     }
 }

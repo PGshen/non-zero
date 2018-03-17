@@ -11,6 +11,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static space.zero.core.constant.Constant.*;
 
@@ -135,6 +136,56 @@ public abstract class AbstractDeleteFlagService<T extends BaseEntity> extends Ab
         return null;
     }
 
+
+    /**
+     * 通过map获得查询条件
+     * @param condition
+     * @return
+     */
+    @Override
+    public List<T> findBy(Map<String, Object> condition) {
+        if (preGet(condition)){
+            try {
+                T model = modelClass.newInstance();
+                for (Map.Entry<String, Object> cond : condition.entrySet()){
+                    Field field = modelClass.getDeclaredField(cond.getKey());
+                    field.setAccessible(true);
+                    field.set(model, cond.getValue());
+                }
+                Field deleteFlagField = modelClass.getDeclaredField("isDelete");
+                deleteFlagField.setAccessible(true);
+                deleteFlagField.set(model,DELETE_FLAG_FALSE);
+                List<T> tList = mapper.select(model);
+                for (T tmp : tList){
+                    afterGet(tmp);
+                }
+                return tList;
+            } catch (ReflectiveOperationException e) {
+                throw new ServiceException(e.getMessage(), e);
+            }
+        }
+        return null;
+    }
+
+
+    /***
+     * 通过model
+     * @param
+     * @return
+     */
+//    public List<T> findBy(T model){
+//        if (preGet(model)){
+//            model.setIsDelete(DELETE_FLAG_FALSE);
+//            List<T> tList = mapper.select(model);
+//            for (T tmp : tList){
+//                afterGet(tmp);
+//            }
+//            return tList;
+//        }
+//        return null;
+//    }
+
+    @Override
     public List<T> findByIds(String ids) {
         if (preGet(ids)){
             List<T> tList = null;
@@ -150,6 +201,7 @@ public abstract class AbstractDeleteFlagService<T extends BaseEntity> extends Ab
         return null;
     }
 
+    @Override
     public List<T> findByCondition(Condition condition) {
         if (preGet(condition)){
             condition.createCriteria().andCondition("is_delete = '0'");
@@ -162,6 +214,7 @@ public abstract class AbstractDeleteFlagService<T extends BaseEntity> extends Ab
         return null;
     }
 
+    @Override
     public List<T> findAll() {
         List<T> tList;
         try {

@@ -20,9 +20,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,6 +34,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import space.zero.common.jsonLib.mapper.JsonMapper;
 import space.zero.core.exception.ServiceException;
 import space.zero.core.result.Result;
 import space.zero.core.result.ResultCode;
@@ -46,16 +50,29 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     private String env;//当前激活的配置文件
 
     //使用阿里 FastJson 作为JSON MessageConverter
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-        FastJsonConfig config = new FastJsonConfig();
-        config.setSerializerFeatures(SerializerFeature.WriteMapNullValue,//保留空的字段
-                SerializerFeature.WriteNullStringAsEmpty,//String null -> ""
-                SerializerFeature.WriteNullNumberAsZero);//Number null -> 0
-        converter.setFastJsonConfig(config);
-        converter.setDefaultCharset(Charset.forName("UTF-8"));
-        converters.add(converter);
+//    @Override
+//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+//        FastJsonConfig config = new FastJsonConfig();
+//        config.setSerializerFeatures(SerializerFeature.WriteMapNullValue,//保留空的字段
+//                SerializerFeature.WriteNullStringAsEmpty,//String null -> ""
+//                SerializerFeature.WriteNullNumberAsZero);//Number null -> 0
+//        converter.setFastJsonConfig(config);
+//        converter.setDefaultCharset(Charset.forName("UTF-8"));
+//        converters.add(converter);
+//    }
+
+    @Bean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        List<MediaType> supportedMediaTypes = new ArrayList<MediaType>();
+        supportedMediaTypes.add(new MediaType("application", "json", Charset
+                .forName("UTF-8")));
+        mappingJackson2HttpMessageConverter
+                .setSupportedMediaTypes(supportedMediaTypes);
+        mappingJackson2HttpMessageConverter.setPrettyPrint(false);
+        mappingJackson2HttpMessageConverter.setObjectMapper(JsonMapper.getInstance());
+        return mappingJackson2HttpMessageConverter;
     }
 
 

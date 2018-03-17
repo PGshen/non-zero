@@ -1,5 +1,7 @@
 package space.zero.business.module.sys.web;
 
+import space.zero.business.module.sys.model.SysMenu;
+import space.zero.business.module.sys.param.request.CondRequest;
 import space.zero.core.result.Result;
 import space.zero.core.result.ResultGenerator;
 import space.zero.business.module.sys.model.SysUserRole;
@@ -44,11 +46,20 @@ public class SysUserRoleController {
         return ResultGenerator.genSuccessResult(sysUserRole);
     }
 
-    @GetMapping
-    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
-        List<SysUserRole> list = sysUserRoleService.findAll();
+//    @GetMapping
+//    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
+//        PageHelper.startPage(page, size);
+//        List<SysUserRole> list = sysUserRoleService.findAll();
+//        PageInfo pageInfo = new PageInfo(list);
+//        return ResultGenerator.genSuccessResult(pageInfo);
+//    }
+
+    @PostMapping("/list")
+    public Result list(@RequestBody CondRequest condRequest){
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        List<SysUserRole> list = sysUserRoleService.findBy(condRequest.getCond());
         PageInfo pageInfo = new PageInfo(list);
+        pageInfo.setOrderBy(condRequest.getOrder());
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 }
