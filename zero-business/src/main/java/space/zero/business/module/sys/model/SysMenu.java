@@ -12,7 +12,6 @@ public class SysMenu extends BaseEntity {
      */
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     /**

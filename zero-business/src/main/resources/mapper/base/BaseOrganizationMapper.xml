@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.sys.BaseOrganizationMapper">
+  <resultMap id="BaseResultMap" type="space.zero.business.module.base.model.BaseOrganization">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="POST_CODE" jdbcType="VARCHAR" property="postCode" />
+    <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_USER" jdbcType="TIMESTAMP" property="updateUser" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+    <result column="DESCRIPTION" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+</mapper>

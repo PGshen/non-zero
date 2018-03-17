@@ -4,7 +4,7 @@ package space.zero.core.constant;
  * 项目常量
  */
 public final class Constant {
-    public static final String BASE_PACKAGE = "space.zero.business.module.sys";//项目基础包名称，根据自己公司的项目修改
+    public static final String BASE_PACKAGE = "space.zero.business.module.base";//项目基础包名称，根据自己公司的项目修改
     public static final String CORE_PACKAGE = "space.zero.core";
 
     public static final String MODEL_PACKAGE = BASE_PACKAGE + ".model";//Model所在包

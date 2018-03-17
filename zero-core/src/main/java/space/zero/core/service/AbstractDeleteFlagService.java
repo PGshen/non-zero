@@ -81,14 +81,12 @@ public abstract class AbstractDeleteFlagService<T extends BaseEntity> extends Ab
     @Transactional(readOnly=false)
     @Override
     public T update(T data){
-        data.setIsDelete(DELETE_FLAG_FALSE);
         data.setUpdateTime(new Date());
         return super.update(data);
     }
 
     @Transactional(readOnly=false)
     public void unDelete(T data) {
-        data.setIsDelete(DELETE_FLAG_FALSE);
         data.setUpdateTime(new Date());
         mapper.updateByPrimaryKeySelective(data);
     }
