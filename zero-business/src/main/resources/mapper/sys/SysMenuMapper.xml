@@ -20,7 +20,10 @@
     <result column="ALWAYS_SHOW" jdbcType="VARCHAR" property="alwaysShow" />
     <result column="COMPONENT" jdbcType="VARCHAR" property="component" />
     <result column="REDIRECT" jdbcType="VARCHAR" property="redirect" />
-    <result column="CREATE_USRE" jdbcType="VARCHAR" property="createUsre" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="METHOD" jdbcType="VARCHAR" property="method" />
     <result column="PATH" jdbcType="LONGVARCHAR" property="path" />
+    <result column="URL" jdbcType="LONGVARCHAR" property="url" />
   </resultMap>
 </mapper>

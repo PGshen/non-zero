@@ -35,6 +35,10 @@ public class SysMenuTree implements Serializable{
     
     private String redirect;
 
+    private String url;
+
+    private String method;
+
     private List<SysMenuTree> children;
 
     public String getId() {
@@ -139,6 +143,22 @@ public class SysMenuTree implements Serializable{
 
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     public List<SysMenuTree> getChildren() {

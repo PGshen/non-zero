@@ -12,6 +12,7 @@ public class SysMenu extends BaseEntity {
      */
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     /**
@@ -25,11 +26,6 @@ public class SysMenu extends BaseEntity {
      */
     @Column(name = "NAME")
     private String name;
-    /**
-     * 显示名称
-     */
-    @Column(name = "TITLE")
-    private String title;
 
     /**
      * 图标的url
@@ -104,10 +100,28 @@ public class SysMenu extends BaseEntity {
     private String createUser;
 
     /**
+     * 菜单的显示名称
+     */
+    @Column(name = "TITLE")
+    private String title;
+
+    /**
+     * 请求的method
+     */
+    @Column(name = "METHOD")
+    private String method;
+
+    /**
      * 菜单path
      */
     @Column(name = "PATH")
     private String path;
+
+    /**
+     * 请求后端的URL
+     */
+    @Column(name = "URL")
+    private String url;
 
     /**
      * 获取菜单id
@@ -161,14 +175,6 @@ public class SysMenu extends BaseEntity {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     /**
@@ -382,7 +388,7 @@ public class SysMenu extends BaseEntity {
     /**
      * 获取创建者
      *
-     * @return CREATE_USRE - 创建者
+     * @return CREATE_USER - 创建者
      */
     public String getCreateUser() {
         return createUser;
@@ -395,6 +401,42 @@ public class SysMenu extends BaseEntity {
      */
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
+    }
+
+    /**
+     * 获取菜单的显示名称
+     *
+     * @return TITLE - 菜单的显示名称
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * 设置菜单的显示名称
+     *
+     * @param title 菜单的显示名称
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * 获取请求的method
+     *
+     * @return METHOD - 请求的method
+     */
+    public String getMethod() {
+        return method;
+    }
+
+    /**
+     * 设置请求的method
+     *
+     * @param method 请求的method
+     */
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     /**
@@ -413,5 +455,23 @@ public class SysMenu extends BaseEntity {
      */
     public void setPath(String path) {
         this.path = path;
+    }
+
+    /**
+     * 获取请求后端的URL
+     *
+     * @return URL - 请求后端的URL
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * 设置请求后端的URL
+     *
+     * @param url 请求后端的URL
+     */
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

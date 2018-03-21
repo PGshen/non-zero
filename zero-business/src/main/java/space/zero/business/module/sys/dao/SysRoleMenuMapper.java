@@ -19,4 +19,12 @@ public interface SysRoleMenuMapper extends Mapper<SysRoleMenu> {
 
     @Select("select MENU_ID from sys_role_menu where IS_DELETE=0 and role_id=#{roleId}")
     List<String> findAuthByRoleId(String roleId);
+
+    //只查找菜单,不需请求跟按钮
+    @Select("select r_m.MENU_ID from sys_role_menu r_m, sys_menu m where r_m.MENU_ID=m.ID and r_m.IS_DELETE=0 and m.type=0 and r_m.role_id=#{roleId}")
+    List<String> findMenuByRoleId(String roleId);
+
+    //根据菜单ID查找该菜单下的权限按钮
+    @Select("select r_m.MENU_ID from sys_role_menu r_m, sys_menu m where r_m.MENU_ID=m.ID and r_m.IS_DELETE=0 and m.type=2 and r_m.role_id=#{roleId}")
+    List<String> findButtonByParentId(String parentId);
 }

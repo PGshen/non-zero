@@ -94,6 +94,35 @@ public  class AntPathRequestMatcher
      * the incoming request doesn't doesn't have the same method.
      * @param caseSensitive true if the matcher should consider case, else false
      */
+//    public AntPathRequestMatcher(String pattern, String httpMethod,
+//                                 boolean caseSensitive) {
+//        Assert.hasText(pattern, "Pattern cannot be null or empty");
+//        this.caseSensitive = caseSensitive;
+//
+//        if (pattern.equals(MATCH_ALL) || pattern.equals("**")) {
+//            pattern = MATCH_ALL;
+//            this.matcher = null;
+//        }
+//        else {
+//            // If the pattern ends with {@code /**} and has no other wildcards or path
+//            // variables, then optimize to a sub-path match
+//            if (pattern.endsWith(MATCH_ALL)
+//                    && (pattern.indexOf('?') == -1 && pattern.indexOf('{') == -1
+//                    && pattern.indexOf('}') == -1)
+//                    && pattern.indexOf("*") == pattern.length() - 2) {
+//                this.matcher = new SubpathMatcher(
+//                        pattern.substring(0, pattern.length() - 3), caseSensitive);
+//            }
+//            else {
+//                this.matcher = new SpringAntMatcher(pattern, caseSensitive);
+//            }
+//        }
+//
+//        this.pattern = pattern;
+//        this.httpMethod = StringUtils.hasText(httpMethod) ? HttpMethod.valueOf(httpMethod)
+//                : null;
+//    }
+
     public AntPathRequestMatcher(String pattern, String httpMethod,
                                  boolean caseSensitive) {
         Assert.hasText(pattern, "Pattern cannot be null or empty");
@@ -106,15 +135,21 @@ public  class AntPathRequestMatcher
         else {
             // If the pattern ends with {@code /**} and has no other wildcards or path
             // variables, then optimize to a sub-path match
-            if (pattern.endsWith(MATCH_ALL)
-                    && (pattern.indexOf('?') == -1 && pattern.indexOf('{') == -1
-                    && pattern.indexOf('}') == -1)
-                    && pattern.indexOf("*") == pattern.length() - 2) {
-                this.matcher = new SubpathMatcher(
-                        pattern.substring(0, pattern.length() - 3), caseSensitive);
+            if (pattern.endsWith(MATCH_ALL) && pattern.indexOf("*") == pattern.length() - 2) {
+                // if the pattern contains { @code {xx} }
+                if (pattern.indexOf('{') > -1 && pattern.indexOf('}') > -1){
+                    this.matcher = new BracepathMatcher(pattern, caseSensitive);
+                }else {
+                    this.matcher = new SubpathMatcher(
+                            pattern.substring(0, pattern.length() - 3), caseSensitive);
+                }
             }
             else {
-                this.matcher = new SpringAntMatcher(pattern, caseSensitive);
+                if (pattern.indexOf('{') > -1 && pattern.indexOf('}') > -1){
+                    this.matcher = new BracepathMatcher(pattern, caseSensitive);
+                }else {
+                    this.matcher = new SpringAntMatcher(pattern, caseSensitive);
+                }
             }
         }
 
@@ -293,6 +328,46 @@ public  class AntPathRequestMatcher
             }
             return path.startsWith(this.subpath)
                     && (path.length() == this.length || path.charAt(this.length) == '/');
+        }
+
+        @Override
+        public Map<String, String> extractUriTemplateVariables(String path) {
+            return Collections.emptyMap();
+        }
+    }
+
+    /**
+     * Optimized matcher for trailing wildcards
+     */
+    private static class BracepathMatcher implements Matcher {
+        private final String bracepath;
+        private final boolean caseSensitive;
+
+        private BracepathMatcher(String bracepath, boolean caseSensitive) {
+            this.bracepath = caseSensitive ? bracepath : bracepath.toLowerCase();
+            this.caseSensitive = caseSensitive;
+        }
+
+        @Override
+        public boolean matches(String path) {
+            if (!this.caseSensitive) {
+                path = path.toLowerCase();
+            }
+            String[] paths = path.split("/");
+            String[] bracepaths = this.bracepath.split("/");
+            for (int i = 0; i < bracepaths.length; i++ ){
+                if (bracepaths[i].equals("**")){
+                    return true;
+                }else if (i == paths.length){   //防止越界
+                    return false;
+                }else if (bracepaths[i].indexOf('{') > -1 && bracepaths[i].indexOf('}') > -1){
+                    continue;
+                }else if (!paths[i].equals(bracepaths[i])){
+                    return false;
+                }
+            }
+            //按bracepath大小匹配完成后,若path后面已无未匹配过的匹配完成
+            return paths.length <= bracepaths.length;
         }
 
         @Override

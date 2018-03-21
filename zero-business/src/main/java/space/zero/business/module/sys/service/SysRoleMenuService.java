@@ -14,4 +14,6 @@ public interface SysRoleMenuService extends Service<SysRoleMenu> {
     List<SysRoleMenu> findAllByRoleId(String roleId);
 
     List<String> findAuthList(String roleID);
+
+    List<String> findMenuList(String roleId);
 }
