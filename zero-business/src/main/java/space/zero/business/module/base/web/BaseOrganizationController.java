@@ -67,4 +67,9 @@ public class BaseOrganizationController {
         BaseOrganizationTree organizationTree = baseOrganizationService.getOrgTree();
         return ResultGenerator.genSuccessResult(organizationTree.getChildren());
     }
+
+    @GetMapping("/page")
+    public Result page(){
+        return ResultGenerator.genSuccessResult();
+    }
 }

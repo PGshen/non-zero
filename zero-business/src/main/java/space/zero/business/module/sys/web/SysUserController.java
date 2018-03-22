@@ -117,4 +117,9 @@ public class SysUserController {
     public Result roleList(@RequestBody UserRoleListRequest userRoleListRequest){
         return ResultGenerator.genSuccessResult(sysUserService.findUserRoleList(userRoleListRequest.getUserId()));
     }
+
+    @GetMapping("/page")
+    public Result page(){
+        return ResultGenerator.genSuccessResult();
+    }
 }

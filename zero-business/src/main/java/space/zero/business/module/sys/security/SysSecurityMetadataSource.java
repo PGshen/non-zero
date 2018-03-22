@@ -9,12 +9,12 @@ import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.web.FilterInvocation;
 import space.zero.business.module.sys.model.SysMenu;
 import space.zero.business.module.sys.service.SysMenuService;
+import space.zero.common.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
- * Created by jiabinl on 2017-3-23.
  *
  * 权限资源 SecurityMetadataSource是一个接口，同时还有一个接口FilterInvocationSecurityMetadataSource继承于它
  * 主要用于加在权限资源，url与权限信息
@@ -64,7 +64,7 @@ public class SysSecurityMetadataSource implements SecurityMetadataSource {
         HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
         AntPathRequestMatcher matcher;
         for (Perm perm : map.keySet()) {
-            if (perm.getUrl() != null && perm.getMethod() != null) {
+            if (perm.getUrl() != null && perm.getMethod() != null && StringUtils.isNotEmpty(perm.getUrl()) && StringUtils.isNotEmpty(perm.getMethod())) {
                 matcher = new AntPathRequestMatcher(perm.getUrl(), perm.getMethod());
                 if (matcher.matches(request)) {
                     return map.get(perm);

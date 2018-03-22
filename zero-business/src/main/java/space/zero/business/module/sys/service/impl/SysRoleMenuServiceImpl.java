@@ -45,6 +45,10 @@ public class SysRoleMenuServiceImpl extends AbstractDeleteFlagService<SysRoleMen
         return menuList;
     }
 
+    public List<String> findButtonList(String roleId, String parentId){
+        return sysRoleMenuMapper.findButtonByParentId(roleId, parentId);
+    }
+
     @Override
     public boolean preInsert(SysRoleMenu data) {
         if (StringUtils.isBlank(data.getId())) {

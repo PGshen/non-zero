@@ -62,4 +62,9 @@ public class SysUserRoleController {
         pageInfo.setOrderBy(condRequest.getOrder());
         return ResultGenerator.genSuccessResult(pageInfo);
     }
+
+    @GetMapping("/page")
+    public Result page(){
+        return ResultGenerator.genSuccessResult();
+    }
 }

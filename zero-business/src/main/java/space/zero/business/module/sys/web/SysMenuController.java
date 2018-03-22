@@ -1,7 +1,10 @@
 package space.zero.business.module.sys.web;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import space.zero.business.module.sys.model.SysUserDetails;
 import space.zero.business.module.sys.param.request.CondRequest;
 import space.zero.business.module.sys.param.response.SysMenuTree;
+import space.zero.business.module.sys.security.SysSecurityMetadataSource;
 import space.zero.core.mapper.Mapper;
 import space.zero.core.result.Result;
 import space.zero.core.result.ResultGenerator;
@@ -23,16 +26,20 @@ import java.util.Map;
 public class SysMenuController {
     @Resource
     private SysMenuService sysMenuService;
+    @Resource
+    private SysSecurityMetadataSource securityMetadataSource;
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable String id) {
         sysMenuService.deleteById(id);
+        securityMetadataSource.loadResourceDefine();
         return ResultGenerator.genSuccessResult();
     }
 
     @PutMapping
     public Result update(@RequestBody SysMenu sysMenu) {
         SysMenu tmp = sysMenuService.update(sysMenu);
+        securityMetadataSource.loadResourceDefine();
         return ResultGenerator.genSuccessResult(tmp);
     }
 
@@ -67,6 +74,8 @@ public class SysMenuController {
         return ResultGenerator.genSuccessResult(sysMenuTree);
     }
 
+
+
     @PostMapping
     public Result add(@RequestBody SysMenu menu) {
         if(null != menu) {
@@ -74,9 +83,16 @@ public class SysMenuController {
                 menu.setParentId("0");
             }
             sysMenuService.save(menu);
+            //每次添加菜单后强制刷新权限
+            securityMetadataSource.loadResourceDefine();
             return ResultGenerator.genSuccessResult("operation succeeded");
         } else {
             return ResultGenerator.genFailResult("menu error");
         }
+    }
+
+    @GetMapping("/page")
+    public Result page(){
+        return ResultGenerator.genSuccessResult();
     }
 }

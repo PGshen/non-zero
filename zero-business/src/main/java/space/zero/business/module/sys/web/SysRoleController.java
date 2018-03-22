@@ -87,4 +87,9 @@ public class SysRoleController {
     public Result roleListForUserAuth(){
         return ResultGenerator.genSuccessResult(sysRoleService.findRoleListForAuth());
     }
+
+    @GetMapping("/page")
+    public Result page(){
+        return ResultGenerator.genSuccessResult();
+    }
 }

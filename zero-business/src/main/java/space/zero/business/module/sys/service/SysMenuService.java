@@ -17,4 +17,6 @@ public interface SysMenuService extends Service<SysMenu> {
     SysMenuTree getSysMenuTree();
 
     List<RouterTree> getMenuByRoles(List<String> roleIds);
+
+    String getButtonByRolesAndParentId(List<String> roleIds, String parentId);
 }

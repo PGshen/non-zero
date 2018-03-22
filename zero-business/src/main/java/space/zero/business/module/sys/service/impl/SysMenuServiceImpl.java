@@ -9,6 +9,7 @@ import space.zero.business.module.sys.param.response.RouterTree;
 import space.zero.business.module.sys.param.response.SysMenuTree;
 import space.zero.business.module.sys.service.SysMenuService;
 import space.zero.business.module.sys.service.SysRoleMenuService;
+import space.zero.business.module.sys.service.SysUserRoleService;
 import space.zero.common.keyGenerator.KeyGenerator;
 import space.zero.common.utils.StringUtils;
 import space.zero.core.service.AbstractDeleteFlagService;
@@ -30,6 +31,8 @@ public class SysMenuServiceImpl extends AbstractDeleteFlagService<SysMenu> imple
     private SysMenuMapper sysMenuMapper;
     @Autowired
     private SysRoleMenuService sysRoleMenuService;
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
     @Autowired
     private KeyGenerator<String> keyGenerator;
 
@@ -58,7 +61,7 @@ public class SysMenuServiceImpl extends AbstractDeleteFlagService<SysMenu> imple
         return sysMenuTree;
     }
 
-    public List<RouterTree> getMenuByMenuIds(List<String> menuIds, String parentId) {
+    public List<RouterTree> getMenuByMenuIds(List<String> menuIds,List<String> roles, String parentId) {
         //为空时表示没有任何权限
         if (menuIds.size() < 1) {
             return null;
@@ -87,8 +90,11 @@ public class SysMenuServiceImpl extends AbstractDeleteFlagService<SysMenu> imple
                     routerTree.setAlwaysShow(tmp.getAlwaysShow());
                     routerTree.setComponent(tmp.getComponent());
                     routerTree.setRedirect(tmp.getRedirect());
+                    routerTree.setUrl(tmp.getUrl());
 
-                    routerTree.setChildren(getMenuByMenuIds(menuIds, routerTree.getId()));
+                    routerTree.setBtn(getButtonByRolesAndParentId(roles, routerTree.getId()));
+
+                    routerTree.setChildren(getMenuByMenuIds(menuIds, roles, routerTree.getId()));
 
                     routerTrees.add(routerTree);
                     break;
@@ -100,6 +106,9 @@ public class SysMenuServiceImpl extends AbstractDeleteFlagService<SysMenu> imple
     }
 
     public List<RouterTree> getMenuByRoles(List<String> roleIds) {
+
+        SysUserDetails sysUserDetails = (SysUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<String> roles = sysUserRoleService.getRoleByUserId(sysUserDetails.getUser().getId());
         Set<String> tmp = new HashSet<>();
         for (String roleId : roleIds) {
             List<String> authList = sysRoleMenuService.findMenuList(roleId);
@@ -112,7 +121,24 @@ public class SysMenuServiceImpl extends AbstractDeleteFlagService<SysMenu> imple
         if (tmp.size() > 0) {
             menuIds = new ArrayList<>(tmp);
         }
-        return getMenuByMenuIds(menuIds, "0");
+        return getMenuByMenuIds(menuIds, roles, "0");
+    }
+
+    public String getButtonByRolesAndParentId(List<String> roleIds, String parentId) {
+        Set<String> tmp = new HashSet<>();
+        for (String roleId : roleIds) {
+            List<String> authList = sysRoleMenuService.findButtonList(roleId, parentId);
+            if (authList.size() > 0) {
+                tmp.addAll(new HashSet<>(authList));
+            }
+        }
+
+        List<String> btnList = null;
+        if (tmp.size() > 0) {
+            btnList = new ArrayList<>(tmp);
+            return String.join(",", btnList);
+        }
+        return "";
     }
 
     public List<SysMenuTree> getChildren(String parentId) {

@@ -28,6 +28,10 @@ public class RouterTree {
 
     private String redirect;
 
+    private String url;
+
+    private String btn;
+
     private List<RouterTree> children;
 
     public String getId() {
@@ -108,6 +112,22 @@ public class RouterTree {
 
     public void setRedirect(String redirect) {
         this.redirect = redirect;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getBtn() {
+        return btn;
+    }
+
+    public void setBtn(String btn) {
+        this.btn = btn;
     }
 
     public List<RouterTree> getChildren() {
