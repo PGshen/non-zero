@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>space.non-zero</groupId>
+    <artifactId>non-zero</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <encoding>UTF-8</encoding>
+
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <start-class>space.zero.business.ZeroApplication</start-class>
+
+        <jackson.version>2.8.6</jackson.version>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
+        <commons-io.version>2.4</commons-io.version>
+        <commons-codec.version>1.9</commons-codec.version>
+        <commons-fileupload.version>1.3.1</commons-fileupload.version>
+        <commons-beanutils.version>1.9.1</commons-beanutils.version>
+        <commons-pool2.version>2.2</commons-pool2.version>
+        <commons-net.version>3.3</commons-net.version>
+        <commons-email.version>1.1</commons-email.version>
+        <httpclient.version>4.5</httpclient.version>
+        <guava.version>21.0</guava.version>
+        <slf4j.version>1.7.22</slf4j.version>
+        <ant.version>1.8.2</ant.version>
+        <lettuce.version>4.3.1.Final</lettuce.version>
+
+        <spring.boot.version>1.5.1.RELEASE</spring.boot.version>
+
+    </properties>
+
+    <modules>
+        <module>zero-core</module>
+        <module>zero-common</module>
+        <module>zero-business</module>
+    </modules>
+
+</project>
