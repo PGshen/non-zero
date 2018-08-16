@@ -49,10 +49,17 @@ public class ResultGenerator {
                 .setTimestamp(new Date().getTime());
     }
 
-    public static Result genForbiddenResult(Object data, String message){
+    public static Result genForbiddenInterfaceResult(Object data, String message){
         return new Result()
-                .setCode(ResultCode.FORBIDDEN)
+                .setCode(ResultCode.FORBIDDEN_INTERFACE)
                 .setData(data)
+                .setMessage(message)
+                .setTimestamp(new Date().getTime());
+    }
+
+    public static Result genForbiddenPageResult(String message){
+        return new Result()
+                .setCode(ResultCode.FORBIDDEN_PAGE)
                 .setMessage(message)
                 .setTimestamp(new Date().getTime());
     }

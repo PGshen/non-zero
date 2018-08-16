@@ -35,37 +35,18 @@ public class RestAuthenticationProcessingFilter extends AbstractAuthenticationPr
     private String usernameParameter = DEFAULT_PARAMKEY_USERNAME;
     private String passwordParameter = DEFAULT_PARAMKEY_PASSWORD;
 
+
     /**
-     * 构造函数，设置/login的拦截，并且设置所有请求都要是application/json方式，并设置鉴权成功与失败处理句柄
+     * 拦截login
+     * 认证成功记失败处理，类型为json
      */
-    public RestAuthenticationProcessingFilter() {
-        // rest api 请求登陆拦截，并设置登陆成功处理方法
+    public RestAuthenticationProcessingFilter(){
+        // rest api 请求登陆拦截
         super(new ContentTypeAntPathRequestMatcher("/login","POST",MIMEType.APPLICATION_JSON));
-        setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                response.setContentType(MIMEType.APPLICATION_JSON+";charset=utf8");
-                PrintWriter out = response.getWriter();
-                Map<String,Object> map=new HashMap<String,Object>();
-                map.put("token",request.getSession().getId());
-                out.write(JsonMapper.toJsonString(ResultGenerator.genSuccessResult(map)));
-                out.flush();
-                out.close();
-            }
-        });
-
-        setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
-            @Override
-            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-
-                response.setContentType(MIMEType.APPLICATION_JSON+";charset=utf8");
-                PrintWriter out = response.getWriter();
-                out.write(JsonMapper.toJsonString(ResultGenerator.genFailResult(exception.getMessage())));
-                out.flush();
-                out.close();
-            }
-        });
-
+        // 设置登陆成功处理方法
+        setAuthenticationSuccessHandler(new SysAuthenticationSuccessHandler());
+        // 设置登陆成功处理方法
+        setAuthenticationFailureHandler(new SysAuthenticationFailureHandler());
     }
 
     /**

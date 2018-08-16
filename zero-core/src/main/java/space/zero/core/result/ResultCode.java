@@ -8,7 +8,8 @@ public enum ResultCode {
     FAIL(40000),//失败
     UNAUTHORIZED(40001),//未认证（签名错误）
     NOT_FOUND(40004),//接口不存在
-    FORBIDDEN(40003),
+    FORBIDDEN_INTERFACE(40003),
+    FORBIDDEN_PAGE(40013),
     INTERNAL_SERVER_ERROR(50000);//服务器内部错误
 
     private final int code;

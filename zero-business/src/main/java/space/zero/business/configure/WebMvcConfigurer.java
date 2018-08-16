@@ -86,15 +86,15 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                     result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
                     logger.info(e.getMessage());
                 } else if (e instanceof NoHandlerFoundException) {
-                    result.setCode(ResultCode.NOT_FOUND).setMessage("接口 [" + request.getRequestURI() + "] 不存在");
+                    result.setCode(ResultCode.NOT_FOUND).setMessage("Interface [" + request.getRequestURI() + "] not exist");
                 } else if (e instanceof ServletException) {
                     result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
                 } else {
-                    result.setCode(ResultCode.INTERNAL_SERVER_ERROR).setMessage("接口 [" + request.getRequestURI() + "] 内部错误，请联系管理员");
+                    result.setCode(ResultCode.INTERNAL_SERVER_ERROR).setMessage("Interface [" + request.getRequestURI() + "] internal server error，please contact administer");
                     String message;
                     if (handler instanceof HandlerMethod) {
                         HandlerMethod handlerMethod = (HandlerMethod) handler;
-                        message = String.format("接口 [%s] 出现异常，方法：%s.%s，异常摘要：%s",
+                        message = String.format("Interface [%s] exception，method：%s.%s，exception abstract：%s",
                                 request.getRequestURI(),
                                 handlerMethod.getBean().getClass().getName(),
                                 handlerMethod.getMethod().getName(),
@@ -139,11 +139,11 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                     if (pass) {
                         return true;
                     } else {
-                        logger.warn("签名认证失败，请求接口：{}，请求IP：{}，请求参数：{}",
+                        logger.warn("Signature authentication failed，request interface：{}，IP：{}，parameter：{}",
                                 request.getRequestURI(), getIpAddress(request), JSON.toJSONString(request.getParameterMap()));
 
                         Result result = new Result();
-                        result.setCode(ResultCode.UNAUTHORIZED).setMessage("签名认证失败");
+                        result.setCode(ResultCode.UNAUTHORIZED).setMessage("Signature authentication failed");
                         responseResult(response, result);
                         return false;
                     }

@@ -71,12 +71,11 @@ public class SpringContextSecurity extends WebSecurityConfigurerAdapter implemen
                 .anyRequest()
                 .authenticated()
                 .and().formLogin()
-                .permitAll()
-                .loginPage("/index.html")
-                .defaultSuccessUrl("/swagger-ui.html")
-                .failureUrl("/index.html")
                 .and().logout()
                 .permitAll()
+                .and()
+                .exceptionHandling()
+                .accessDeniedHandler(new SysAccessDeniedHandler())
                 .and().httpBasic();
     }
 

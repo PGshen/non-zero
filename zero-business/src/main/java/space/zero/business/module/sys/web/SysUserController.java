@@ -81,7 +81,7 @@ public class SysUserController {
             }
 
         }else{
-            return ResultGenerator.genForbiddenResult(null, "can not get user bind to this token");
+            return ResultGenerator.genForbiddenInterfaceResult(null, "can not get user bind to this token");
         }
 
     }
