@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: dev
+  mvc:
+#    404 交给异常处理器处理
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  http:
+#    编码
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+
+#    服务
+server:
+  tomcat:
+    uri-encoding: UTF-8
+#    session超时
+  session:
+    timeout: 3600000
+
+#    日志
+logging:
+  config: classpath:config/logback-spring.xml
+
+#  自定义配置
+app:
+  global:
+    charset: UTF-8
+  session:
+    headerTokenName: x-auth-token

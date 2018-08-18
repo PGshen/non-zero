@@ -13,6 +13,7 @@ import org.springframework.session.web.http.HttpSessionStrategy;
  * Created by PG_shen
  * Date : 3/9/18
  * Time : 10:25 AM
+ * 启用RedisHttpSession功能
  */
 @Configuration
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds=1800,redisNamespace="fire-safety")

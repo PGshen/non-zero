@@ -58,14 +58,16 @@ public class SpringContextSecurity extends WebSecurityConfigurerAdapter implemen
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+//        跨越问题，开发阶段关闭
+//        http.csrf().disable()
+        http.csrf().ignoringAntMatchers("/**").and()
                 .addFilterBefore(restAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(defaultAuthenticationProcessingFilter(),UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(restAuthenticationExceptionFilter(), ExceptionTranslationFilter.class)
                 .cors()
+//                排除不需要鉴权的
                 .and().authorizeRequests()
-                .mvcMatchers("/favicon.ico", "/wechat/portal","/act/**","/modeler/**","/diagram-viewer/**","/wechat/login","/wechat/loginPage","/msg/**","/wechat/oauth","/web/**")
-//                .mvcMatchers("/**")
+                .antMatchers("/favicon.ico", "/wechat/portal","/act/**","/modeler/**","/diagram-viewer/**","/wechat/login","/wechat/loginPage","/msg/**","/wechat/oauth","/web/**", "/druid/**")
                 .permitAll()
                 .and().authorizeRequests()
                 .anyRequest()

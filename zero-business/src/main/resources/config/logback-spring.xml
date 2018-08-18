@@ -3,7 +3,7 @@
 <configuration debug="false" scan="true" scanPeriod="1 seconds">
     <springProfile name="pro">
         <!-- configuration to be enabled when the "pro" profile is active -->
-        <property name="log.path" value="../logs/zero-center" />
+        <property name="log.path" value="./logs/zero-center" />
         <contextName>zero-center</contextName>
 
         <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -44,7 +44,7 @@
 
     <springProfile name="dev">
         <!-- configuration to be enabled when the "dev" profile is active -->
-        <property name="log.path" value="../logs/zero-center" />
+        <property name="log.path" value="./logs/zero-center" />
         <contextName>zero-center</contextName>
 
         <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -70,9 +70,13 @@
             </encoder>
         </appender>
 
-        <root level="error">
-            <appender-ref ref="console" />
+        <root level="warn">
+            <!--<appender-ref ref="console" />-->
             <appender-ref ref="file" />
+        </root>
+        <root level="info">
+            <appender-ref ref="console" />
+            <!--<appender-ref ref="file" />-->
         </root>
 
         <logger name="space.zero" level="debug" addtivity="true" >
