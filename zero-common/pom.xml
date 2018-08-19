@@ -119,6 +119,13 @@
             <artifactId>jjwt</artifactId>
             <version>0.7.0</version>
         </dependency>
+        <!-- javaMail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>${java-mail.version}</version>
+        </dependency>
+
 
 
 
