@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.base.BaseLogMapper">
+  <resultMap id="BaseResultMap" type="space.zero.business.module.base.model.BaseLog">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CLIENT_IP" jdbcType="VARCHAR" property="clientIp" />
+    <result column="URI" jdbcType="VARCHAR" property="uri" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="METHOD" jdbcType="VARCHAR" property="method" />
+    <result column="PARAM_DATA" jdbcType="VARCHAR" property="paramData" />
+    <result column="SESSION_ID" jdbcType="VARCHAR" property="sessionId" />
+    <result column="TIME" jdbcType="VARCHAR" property="time" />
+    <result column="RETURN_TIME" jdbcType="VARCHAR" property="returnTime" />
+    <result column="RETURN_DATA" jdbcType="VARCHAR" property="returnData" />
+    <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+    <result column="TIME_CONSUMING" jdbcType="VARCHAR" property="timeConsuming" />
+    <result column="STATUS_CODE" jdbcType="VARCHAR" property="statusCode" />
+  </resultMap>
+</mapper>

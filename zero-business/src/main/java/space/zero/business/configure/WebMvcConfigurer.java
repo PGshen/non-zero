@@ -34,6 +34,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import space.zero.business.configure.interceptor.LoggerInterceptor;
 import space.zero.common.jsonLib.mapper.JsonMapper;
 import space.zero.core.exception.ServiceException;
 import space.zero.core.result.Result;
@@ -150,6 +151,8 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                 }
             });
         }
+//        添加请求日志拦截器
+        registry.addInterceptor(new LoggerInterceptor()).addPathPatterns("/**");
     }
 
     private void responseResult(HttpServletResponse response, Result result) {

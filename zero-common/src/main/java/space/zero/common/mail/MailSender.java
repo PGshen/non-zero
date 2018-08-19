@@ -87,7 +87,7 @@ public class MailSender {
                 InternetAddress to = new InternetAddress(targetAddress.get(i));
                 message.setRecipient(Message.RecipientType.TO, to);
                 Transport.send(message);
-                System.out.println("mail send successful");
+                System.out.println("mail send successful" + message.toString());
             }catch (Exception e){
                 e.printStackTrace();
             }

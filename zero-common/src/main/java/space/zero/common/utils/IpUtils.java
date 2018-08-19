@@ -19,4 +19,18 @@ public class IpUtils {
         }
         return remoteAddr != null ? remoteAddr : request.getRemoteAddr();
     }
+
+    /**
+     * 获取请求类型（是否ajax)
+     * @param request
+     * @return
+     */
+    public static String getRequestType(HttpServletRequest request){
+        if (request.getHeader("x-requested-with") != null
+                && request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")) {
+            return "Ajax";
+        }else{
+            return "SyncRequest";
+        }
+    }
 }

@@ -2,6 +2,7 @@ package space.zero.business.module.sys.dao;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Component;
 import space.zero.business.module.sys.model.SysRole;
 import space.zero.business.module.sys.model.SysUserRole;
 import space.zero.core.mapper.Mapper;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Created by PG_shen on 2018/03/08.
  */
+@Component
 public interface SysUserRoleMapper extends Mapper<SysUserRole> {
     @Select("select r.* from sys_role r, sys_user u, sys_user_role u_r where r.id = u_r.ROLE_ID and u_r.USER_ID = u.ID and u_r.IS_DELETE = 0 and u.ID = #{userId}")
     List<SysRole> findSysRolesByUserId(String userId);
