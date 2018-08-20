@@ -50,8 +50,8 @@ public class SysUserServiceImpl extends AbstractDeleteFlagService<SysUser> imple
     @Autowired
     private SysUserRoleService sysUserRoleService;
 
-    public SysUser getByLoginName(String loginName) {
-        return super.findBy("loginName", loginName).get(0);
+    public List<SysUser> getByLoginName(String loginName) {
+        return super.findBy("loginName", loginName);
     }
 
     /**
@@ -62,12 +62,14 @@ public class SysUserServiceImpl extends AbstractDeleteFlagService<SysUser> imple
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser user = getByLoginName(username);
-        if (user != null && DELETE_FLAG_FALSE.equals(user.getIsDelete())) {
-            List<String> roles = sysUserRoleMapper.getSysRolesByUsername(username);
-            user.setRole(roles);
+        List<SysUser> userList = getByLoginName(username);
+        if (!userList.isEmpty()){
+            SysUser user = userList.get(0);
+            if (user != null && DELETE_FLAG_FALSE.equals(user.getIsDelete())) {
+                List<String> roles = sysUserRoleMapper.getSysRolesByUsername(username);
+                user.setRole(roles);
 
-            List<GrantedAuthority> auths = new ArrayList<>();
+                List<GrantedAuthority> auths = new ArrayList<>();
 //            String perms;
 //            for (String role : roles) {
 //                perms = sysRoleMenuRepository.getPermsByRole(role);
@@ -79,23 +81,24 @@ public class SysUserServiceImpl extends AbstractDeleteFlagService<SysUser> imple
 //                    }
 //                }
 //            }
-            List<String> permsList;
-            for (String role : roles) {
-                permsList = sysRoleMenuMapper.getPermsByRole(role);
-                if (permsList.size()>0){
-                    for (String perm : permsList) {
-                        auths.add(new SimpleGrantedAuthority(perm));
-                        logger.debug("loginName : {}, authCode : {}", user.getLoginName(), perm);
+                List<String> permsList;
+                for (String role : roles) {
+                    permsList = sysRoleMenuMapper.getPermsByRole(role);
+                    if (permsList.size()>0){
+                        for (String perm : permsList) {
+                            auths.add(new SimpleGrantedAuthority(perm));
+                            logger.debug("loginName : {}, authCode : {}", user.getLoginName(), perm);
+                        }
                     }
                 }
+
+                user.setPerms(auths);
+
+                SysUserDetails userDetails = new SysUserDetails(user);
+                System.out.println("username = [" + username + "]");
+
+                return userDetails;
             }
-
-            user.setPerms(auths);
-
-            SysUserDetails userDetails = new SysUserDetails(user);
-            System.out.println("username = [" + username + "]");
-
-            return userDetails;
         }
 
 

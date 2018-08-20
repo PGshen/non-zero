@@ -45,6 +45,9 @@
         <module>zero-core</module>
         <module>zero-common</module>
         <module>zero-business</module>
+        <module>zero-cron</module>
+        <module>zero-cron</module>
+        <module>zero-cron</module>
     </modules>
 
 </project>

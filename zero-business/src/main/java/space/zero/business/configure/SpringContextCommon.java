@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import space.zero.common.keyGenerator.KeyGenerator;
 import space.zero.common.keyGenerator.TimeFormatKeyGenerator;
 import space.zero.common.mail.MailSender;
+import space.zero.cron.CronDemo;
 
 /**
  * Created by PG_shen
@@ -22,5 +23,10 @@ public class SpringContextCommon {
     @Bean
     public MailSender mailSender(){
         return new MailSender();
+    }
+
+    @Bean
+    public CronDemo cronDemo(){
+        return new CronDemo();
     }
 }
