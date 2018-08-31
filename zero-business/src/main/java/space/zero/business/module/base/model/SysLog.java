@@ -5,8 +5,8 @@ import space.zero.core.model.BaseEntity;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "base_log")
-public class BaseLog extends BaseEntity {
+@Table(name = "sys_log")
+public class SysLog extends BaseEntity {
     /**
      * 日志id
      */

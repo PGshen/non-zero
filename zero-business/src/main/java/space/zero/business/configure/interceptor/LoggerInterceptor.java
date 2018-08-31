@@ -6,8 +6,8 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import space.zero.business.module.base.model.BaseLog;
-import space.zero.business.module.base.service.BaseLogService;
+import space.zero.business.module.base.model.SysLog;
+import space.zero.business.module.base.service.SysLogService;
 import space.zero.common.utils.IpUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         //创建日志实体
-        BaseLog logger = new BaseLog();
+        SysLog logger = new SysLog();
         String sessionId = request.getRequestedSessionId();
         String url = request.getRequestURI();
 //        Request Payload传参，只能通过数据流获取，但数据流读取后会导致后面业务取不到请求参数
@@ -75,13 +75,13 @@ public class LoggerInterceptor implements HandlerInterceptor {
         long currentTime = System.currentTimeMillis();
         long time = Long.valueOf(request.getAttribute(LOGGER_SEND_TIME).toString());
         //获取本次请求日志实体
-        BaseLog logger = (BaseLog) request.getAttribute(LOGGER_ENTITY);
+        SysLog logger = (SysLog) request.getAttribute(LOGGER_ENTITY);
         logger.setTimeConsuming(String.valueOf((currentTime - time) + ""));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
         logger.setReturnTime(sdf.format(new Date(currentTime)) + "");
         logger.setStatusCode(status + "");
         //执行将日志写入数据库
-        BaseLogService logService = getLogMapper(BaseLogService.class, request);
+        SysLogService logService = getLogMapper(SysLogService.class, request);
         logService.save(logger);
     }
 

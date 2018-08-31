@@ -1,10 +1,9 @@
 package space.zero.business.module.base.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import space.zero.business.module.base.dao.BaseLogMapper;
-import space.zero.business.module.base.model.BaseLog;
-import space.zero.business.module.base.service.BaseLogService;
-import space.zero.business.module.sys.model.SysUser;
+import space.zero.business.module.base.dao.SysLogMapper;
+import space.zero.business.module.base.model.SysLog;
+import space.zero.business.module.base.service.SysLogService;
 import space.zero.common.keyGenerator.KeyGenerator;
 import space.zero.common.utils.StringUtils;
 import space.zero.core.service.AbstractDeleteFlagService;
@@ -21,15 +20,15 @@ import java.util.Date;
  */
 @Service
 @Transactional
-public class BaseLogServiceImpl extends AbstractDeleteFlagService<BaseLog> implements BaseLogService {
+public class SysLogServiceImpl extends AbstractDeleteFlagService<SysLog> implements SysLogService {
     @Resource
-    private BaseLogMapper baseLogMapper;
+    private SysLogMapper sysLogMapper;
 
     @Autowired
     private KeyGenerator<String> keyGenerator;
 
     @Override
-    public boolean preInsert(BaseLog data) {
+    public boolean preInsert(SysLog data) {
         if (StringUtils.isBlank(data.getId())) {
             data.setId(keyGenerator.getNext());
         }
