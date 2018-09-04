@@ -84,14 +84,10 @@ public class SysRoleMenuController {
         return ResultGenerator.genSuccessResult(routerTrees);
     }
 
-//    @GetMapping("/btnList")
-//    public Result getBtn(@RequestParam String parentId){
-//        SysUserDetails sysUserDetails = (SysUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        List<String> roles = sysUserRoleService.getRoleByUserId(sysUserDetails.getUser().getId());
-//        List<String> btnList = sysMenuService.getButtonByRolesAndParentId(roles, parentId);
-//        return ResultGenerator.genSuccessResult(btnList);
-//
-//    }
+    @GetMapping("/getPerms")
+    public Result getPerms(){
+        return ResultGenerator.genSuccessResult(sysRoleMenuService.getPermsByRoles());
+    }
 
     @GetMapping("/page")
     public Result page(){
