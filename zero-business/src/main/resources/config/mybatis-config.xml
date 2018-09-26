@@ -46,14 +46,9 @@
 
     <!-- 类型别名 -->
     <typeAliases>
-        <!-- 		<typeAlias alias="Page" type="com.grkj.common.persistence.Page" />分页
-                <typeAlias alias="User" type="com.grkj.modules.sys.entity.User" />
-                <typeAlias alias="Menu" type="com.grkj.modules.sys.entity.Menu" />
-                <typeAlias alias="Office" type="com.grkj.modules.sys.entity.Office" />
-                <typeAlias alias="Area" type="com.grkj.modules.sys.entity.Area" />
-                <typeAlias alias="Role" type="com.grkj.modules.sys.entity.Role" />
-                <typeAlias alias="Dict" type="com.grkj.modules.sys.entity.Dict" />
-                <typeAlias alias="Log" type="com.grkj.modules.sys.entity.Log" /> -->
+        <typeAlias alias="SysMenu" type="space.zero.business.module.sys.model.SysMenu"/>
+        <typeAlias alias="SysRole" type="space.zero.business.module.sys.model.SysRole"/>
+        <typeAlias alias="SysUser" type="space.zero.business.module.sys.model.SysUser"/>
     </typeAliases>
 
     <!--<plugins>-->

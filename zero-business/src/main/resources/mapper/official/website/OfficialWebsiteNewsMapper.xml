@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.official.website.OfficialWebsiteNewsMapper">
+  <resultMap id="BaseResultMap" type="space.zero.business.module.official.website.model.OfficialWebsiteNews">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="TITLE_PIC" jdbcType="VARCHAR" property="titlePic" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="RELEASE_TIME" jdbcType="TIMESTAMP" property="releaseTime" />
+    <result column="READING_TIMES" jdbcType="INTEGER" property="readingTimes" />
+    <result column="NEWS_CLASS" jdbcType="VARCHAR" property="newsClass" />
+    <result column="TAGS" jdbcType="VARCHAR" property="tags" />
+    <result column="AUTHOR" jdbcType="VARCHAR" property="author" />
+    <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
+    <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="TEXT" jdbcType="LONGVARCHAR" property="text" />
+  </resultMap>
+</mapper>

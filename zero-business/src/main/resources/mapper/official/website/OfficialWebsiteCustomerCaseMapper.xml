@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.sys.OfficialWebsiteCustomerCaseMapper">
+  <resultMap id="BaseResultMap" type="space.zero.business.module.official.website.model.OfficialWebsiteCustomerCase">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="FIRST_HEADING" jdbcType="VARCHAR" property="firstHeading" />
+    <result column="SECONDARY_HEADING" jdbcType="VARCHAR" property="secondaryHeading" />
+    <result column="TERTIARY_HEADING" jdbcType="VARCHAR" property="tertiaryHeading" />
+    <result column="CUSTOMER_CASE_SYNOPSIS" jdbcType="VARCHAR" property="customerCaseSynopsis" />
+    <result column="CASE_PIC" jdbcType="VARCHAR" property="casePic" />
+    <result column="CASE_CLASS" jdbcType="VARCHAR" property="caseClass" />
+    <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
+    <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="CASE_TEXT" jdbcType="LONGVARCHAR" property="caseText" />
+  </resultMap>
+</mapper>
