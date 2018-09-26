@@ -9,7 +9,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @SpringBootApplication
-@EnableScheduling
+//@EnableScheduling
 public class ZeroApplication {
     public static void main(String[] args) {
         SpringApplication.run(ZeroApplication.class, args);

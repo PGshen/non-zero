@@ -29,13 +29,13 @@ public class SpringContextCommon {
         return new MailSender();
     }
 
-    @Bean
-    public CronDemo cronDemo(){
-        return new CronDemo();
-    }
-
-    @Bean
-    public ScheduleConfig scheduleConfig(){
-        return new ScheduleConfig();
-    }
+//    @Bean
+//    public CronDemo cronDemo(){
+//        return new CronDemo();
+//    }
+//
+//    @Bean
+//    public ScheduleConfig scheduleConfig(){
+//        return new ScheduleConfig();
+//    }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.sys.OfficialWebsiteRecruitMapper">
+  <resultMap id="BaseResultMap" type="space.zero.business.module.official.website.model.OfficialWebsiteRecruit">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CAPACITY_NAME" jdbcType="VARCHAR" property="capacityName" />
+    <result column="CAPACITY_CLASS" jdbcType="VARCHAR" property="capacityClass" />
+    <result column="DEPARTMENT" jdbcType="VARCHAR" property="department" />
+    <result column="JOB_STATION" jdbcType="VARCHAR" property="jobStation" />
+    <result column="JOB_KIND" jdbcType="VARCHAR" property="jobKind" />
+    <result column="RECRUIT_NUM" jdbcType="VARCHAR" property="recruitNum" />
+    <result column="SALARY" jdbcType="VARCHAR" property="salary" />
+    <result column="RELEASE_TIME" jdbcType="TIMESTAMP" property="releaseTime" />
+    <result column="JOB_DUTIES" jdbcType="VARCHAR" property="jobDuties" />
+    <result column="JOB_QUALIFICATION" jdbcType="VARCHAR" property="jobQualification" />
+    <result column="DELIVERY_EMAIL" jdbcType="VARCHAR" property="deliveryEmail" />
+    <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
+    <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+  </resultMap>
+</mapper>
