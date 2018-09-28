@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import space.zero.business.configure.interceptor.LoggerInterceptor;
@@ -74,6 +75,13 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         mappingJackson2HttpMessageConverter.setPrettyPrint(false);
         mappingJackson2HttpMessageConverter.setObjectMapper(JsonMapper.getInstance());
         return mappingJackson2HttpMessageConverter;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
+        registry.addResourceHandler("/upload/avatar/**").addResourceLocations("classpath:/upload/avatar/");
+        registry.addResourceHandler("/upload/image/**").addResourceLocations("classpath:/upload/image/");
+        registry.addResourceHandler("/upload/file/**").addResourceLocations("classpath:/upload/file/");
     }
 
 
