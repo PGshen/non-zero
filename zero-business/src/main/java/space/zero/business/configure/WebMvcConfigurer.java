@@ -50,6 +50,8 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
     @Value("${spring.profiles.active}")
     private String env;//当前激活的配置文件
+    @Value("${website.global.upload.location}")
+    private String upload;
 
     //使用阿里 FastJson 作为JSON MessageConverter
 //    @Override
@@ -79,9 +81,10 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler("/upload/avatar/**").addResourceLocations("classpath:/upload/avatar/");
-        registry.addResourceHandler("/upload/image/**").addResourceLocations("classpath:/upload/image/");
-        registry.addResourceHandler("/upload/file/**").addResourceLocations("classpath:/upload/file/");
+        if(!registry.hasMappingForPattern("/upload/**")){
+            registry.addResourceHandler("/upload/**").addResourceLocations("file:"+upload);
+        }
+        super.addResourceHandlers(registry);
     }
 
 

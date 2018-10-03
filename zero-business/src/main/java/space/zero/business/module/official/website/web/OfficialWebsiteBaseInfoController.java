@@ -26,39 +26,22 @@ public class OfficialWebsiteBaseInfoController {
     @Resource
     private OfficialWebsiteBaseInfoService officialWebsiteBaseInfoService;
 
-    @Resource
-    private ResourceLoader resourceLoader;
-
-    @PostMapping
-    public Result add(@RequestBody OfficialWebsiteBaseInfo officialWebsiteBaseInfo) {
-        OfficialWebsiteBaseInfo tmp = officialWebsiteBaseInfoService.save(officialWebsiteBaseInfo);
-        return ResultGenerator.genSuccessResult(tmp);
-    }
-
-    @DeleteMapping("/{id}")
-    public Result delete(@PathVariable String id) {
-        officialWebsiteBaseInfoService.deleteById(id);
-        return ResultGenerator.genSuccessResult();
-    }
-
     @PutMapping
     public Result update(@RequestBody OfficialWebsiteBaseInfo officialWebsiteBaseInfo) {
-        OfficialWebsiteBaseInfo tmp = officialWebsiteBaseInfoService.update(officialWebsiteBaseInfo);
-        return ResultGenerator.genSuccessResult(tmp);
+        officialWebsiteBaseInfo.setLogoUrl(officialWebsiteBaseInfo.getLogoUrl().replace("http://localhost:8088/",""));
+        officialWebsiteBaseInfo.setQrCodeUrl(officialWebsiteBaseInfo.getQrCodeUrl().replace("http://localhost:8088/",""));
+        OfficialWebsiteBaseInfo baseInfo = officialWebsiteBaseInfoService.updateInfo(officialWebsiteBaseInfo);
+        officialWebsiteBaseInfo.setLogoUrl("http://localhost:8088/"+ officialWebsiteBaseInfo.getLogoUrl());
+        officialWebsiteBaseInfo.setQrCodeUrl("http://localhost:8088/" + officialWebsiteBaseInfo.getQrCodeUrl());
+        return ResultGenerator.genSuccessResult(baseInfo);
     }
 
-    @GetMapping("/{id}")
-    public Result detail(@PathVariable String id) {
-        OfficialWebsiteBaseInfo officialWebsiteBaseInfo = officialWebsiteBaseInfoService.findById(id);
+    @GetMapping
+    public Result detail() {
+        OfficialWebsiteBaseInfo officialWebsiteBaseInfo = officialWebsiteBaseInfoService.fetchInfo();
+        officialWebsiteBaseInfo.setLogoUrl("http://localhost:8088/"+ officialWebsiteBaseInfo.getLogoUrl());
+        officialWebsiteBaseInfo.setQrCodeUrl("http://localhost:8088/" + officialWebsiteBaseInfo.getQrCodeUrl());
         return ResultGenerator.genSuccessResult(officialWebsiteBaseInfo);
-    }
-
-    @GetMapping("/list")
-    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
-        List<OfficialWebsiteBaseInfo> list = officialWebsiteBaseInfoService.findAll();
-        PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.genSuccessResult(pageInfo);
     }
 
     /**
@@ -67,32 +50,15 @@ public class OfficialWebsiteBaseInfoController {
      * @return
      */
     @PostMapping("/upload")
-    public Result upload(@RequestParam("fileName") MultipartFile file){
+    public Result upload(@RequestParam("avatar") MultipartFile file){
         FileUploadUtils fileUploadUtils = new FileUploadUtils();
         String filePath = null;
         try {
-            filePath = fileUploadUtils.uploadFile(file, FileUploadEnum.FILE);
+            filePath = "http://localhost:8088/" + fileUploadUtils.uploadFile(file, FileUploadEnum.AVATAR);
         } catch (IOException e) {
             e.printStackTrace();
             return ResultGenerator.genFailResult("fail");
         }
         return ResultGenerator.genSuccessResult(filePath, "success");
-    }
-
-    /**
-     *
-     * https://blog.csdn.net/qq_32106647/article/details/80519262
-     * @param fileName
-     * @return
-     */
-    @RequestMapping("show")
-    public ResponseEntity showPhotos(String fileName){
-
-        try {
-            // 由于是读取本机的文件，file是一定要加上的， path是在application配置文件中的路径
-            return ResponseEntity.ok(resourceLoader.getResource("file:" + fileName));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 }

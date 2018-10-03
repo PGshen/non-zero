@@ -14,10 +14,8 @@ import java.util.UUID;
  */
 public class FileUploadUtils {
 
-    @Value("${official-website.upload.file}")
-    private String fileLocation;
-    @Value("${official-website.upload.avatar}")
-    private String avatarLocation;
+//    @Value("${website.global.upload.location}")
+    private String fileLocation = "/home/pipix/Project/web/non-zero/upload";
 
     /**
      * 上传文件
@@ -29,28 +27,30 @@ public class FileUploadUtils {
      */
     public String uploadFile(MultipartFile file, FileUploadEnum fileUploadEnum) throws IOException {
 
-        String localPath = "";
+        String filePath = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        String yearDir = sdf.format(new Date());
+        sdf = new SimpleDateFormat("yyyyMM");
+        String monthDir = sdf.format(new Date()).substring(4);
         if (fileUploadEnum == FileUploadEnum.FILE){
-            localPath = fileLocation;
+            filePath = "/file/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
         }else if (fileUploadEnum == FileUploadEnum.AVATAR){
-            localPath = avatarLocation;
+            filePath = "/avatar/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String direct = sdf.format(new Date());
 
-        String realPath = localPath + "/" + direct + "/" + getFileName(file.getOriginalFilename());
+        String realPath = fileLocation + filePath;
 
         File dest = new File(realPath);
 
         //判断文件父目录是否存在
         if(!dest.getParentFile().exists()){
-            dest.getParentFile().mkdir();
+            dest.getParentFile().mkdirs();
         }
 
         try {
             //保存文件
             file.transferTo(dest);
-            return realPath;
+            return "upload"+filePath;
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -72,11 +72,13 @@ public class FileUploadUtils {
     }
 
     /**
-     * 生成新的文件名
+     * 生成新的文件名,时分秒毫秒
      * @param fileOriginName 源文件名
      * @return
      */
     public static String getFileName(String fileOriginName){
-        return UUID.randomUUID().toString().replace("-", "") + getSuffix(fileOriginName);
+        SimpleDateFormat sdf = new SimpleDateFormat("ddHHmmssSSS");
+        String fileName = sdf.format(new Date());
+        return fileName + getSuffix(fileOriginName);
     }
 }
