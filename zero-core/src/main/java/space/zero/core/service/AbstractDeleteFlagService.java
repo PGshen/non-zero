@@ -28,7 +28,9 @@ public abstract class AbstractDeleteFlagService<T extends BaseEntity> extends Ab
     @Override
     public T save(T model){
         model.setIsDelete(DELETE_FLAG_FALSE);
-        model.setIsEnable(ENABLE_FLAG_TRUE);
+        if (model.getIsEnable() == null || "".equals(model.getIsEnable())){
+            model.setIsEnable(ENABLE_FLAG_TRUE);
+        }
         model.setUpdateTime(new Date());
         return super.save(model);
     }

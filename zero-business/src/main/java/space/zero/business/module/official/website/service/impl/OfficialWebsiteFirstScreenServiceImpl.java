@@ -1,5 +1,6 @@
 package space.zero.business.module.official.website.service.impl;
 
+import space.zero.business.module.official.website.base.WebsiteDeleteFlagService;
 import space.zero.business.module.official.website.dao.OfficialWebsiteFirstScreenMapper;
 import space.zero.business.module.official.website.model.OfficialWebsiteFirstScreen;
 import space.zero.business.module.official.website.service.OfficialWebsiteFirstScreenService;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Transactional
-public class OfficialWebsiteFirstScreenServiceImpl extends AbstractDeleteFlagService<OfficialWebsiteFirstScreen> implements OfficialWebsiteFirstScreenService {
+public class OfficialWebsiteFirstScreenServiceImpl extends WebsiteDeleteFlagService<OfficialWebsiteFirstScreen> implements OfficialWebsiteFirstScreenService {
     @Resource
     private OfficialWebsiteFirstScreenMapper officialWebsiteFirstScreenMapper;
 

@@ -1,15 +1,11 @@
 package space.zero.business.module.official.website.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import space.zero.business.module.official.website.base.WebsiteDeleteFlagService;
 import space.zero.business.module.official.website.dao.OfficialWebsiteBaseInfoMapper;
 import space.zero.business.module.official.website.model.OfficialWebsiteBaseInfo;
 import space.zero.business.module.official.website.service.OfficialWebsiteBaseInfoService;
-import space.zero.business.module.sys.model.SysMenu;
-import space.zero.business.module.sys.model.SysUserDetails;
 import space.zero.common.keyGenerator.KeyGenerator;
-import space.zero.common.utils.StringUtils;
-import space.zero.core.service.AbstractDeleteFlagService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +19,7 @@ import java.util.Date;
  */
 @Service
 @Transactional
-public class OfficialWebsiteBaseInfoServiceImpl extends AbstractDeleteFlagService<OfficialWebsiteBaseInfo> implements OfficialWebsiteBaseInfoService {
+public class OfficialWebsiteBaseInfoServiceImpl extends WebsiteDeleteFlagService<OfficialWebsiteBaseInfo> implements OfficialWebsiteBaseInfoService {
     @Resource
     private OfficialWebsiteBaseInfoMapper officialWebsiteBaseInfoMapper;
 
@@ -40,15 +36,6 @@ public class OfficialWebsiteBaseInfoServiceImpl extends AbstractDeleteFlagServic
     public OfficialWebsiteBaseInfo updateInfo(OfficialWebsiteBaseInfo baseInfo) {
         officialWebsiteBaseInfoMapper.setAllDisable();
         return super.save(baseInfo);
-    }
-
-    @Override
-    public boolean preInsert(OfficialWebsiteBaseInfo data) {
-        data.setId(keyGenerator.getNext());
-        SysUserDetails sysUserDetails = (SysUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        data.setUpdateUser(sysUserDetails.getUser().getName());
-        data.setCreatedTime(new Timestamp(new Date().getTime()));
-        return super.preInsert(data);
     }
 
 }

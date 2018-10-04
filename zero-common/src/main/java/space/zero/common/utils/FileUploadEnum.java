@@ -5,5 +5,7 @@ package space.zero.common.utils;
  */
 public enum FileUploadEnum {
     AVATAR,
-    FILE
+    FILE,
+    CAROUSEL,
+    FIRSTSCREEN
 }

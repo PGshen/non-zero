@@ -36,6 +36,10 @@ public class FileUploadUtils {
             filePath = "/file/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
         }else if (fileUploadEnum == FileUploadEnum.AVATAR){
             filePath = "/avatar/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
+        }else if (fileUploadEnum == FileUploadEnum.CAROUSEL){
+            filePath = "/carousel/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
+        }else if (fileUploadEnum == FileUploadEnum.FIRSTSCREEN){
+            filePath = "/firstscreen/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
         }
 
         String realPath = fileLocation + filePath;
