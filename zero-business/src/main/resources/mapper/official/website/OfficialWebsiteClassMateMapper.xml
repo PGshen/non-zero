@@ -8,6 +8,7 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="CLAZZ_NAME" jdbcType="VARCHAR" property="clazzName" />
     <result column="CLAZZ_VALUE" jdbcType="VARCHAR" property="clazzValue" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
     <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />

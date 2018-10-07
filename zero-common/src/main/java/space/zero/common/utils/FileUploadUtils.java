@@ -40,6 +40,14 @@ public class FileUploadUtils {
             filePath = "/carousel/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
         }else if (fileUploadEnum == FileUploadEnum.FIRSTSCREEN){
             filePath = "/firstscreen/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
+        }else if (fileUploadEnum == FileUploadEnum.NEWS){
+            filePath = "/news/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
+        }else if (fileUploadEnum == FileUploadEnum.PRODUCT){
+            filePath = "/product/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
+        }else if (fileUploadEnum == FileUploadEnum.SOLUTION){
+            filePath = "/solution/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
+        }else if (fileUploadEnum == FileUploadEnum.CUSTOMERCASE){
+            filePath = "/customercase/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
         }
 
         String realPath = fileLocation + filePath;

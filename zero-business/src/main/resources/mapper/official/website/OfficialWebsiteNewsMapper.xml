@@ -8,17 +8,18 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
     <result column="TITLE_PIC" jdbcType="VARCHAR" property="titlePic" />
-    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="SYNOPSIS" jdbcType="VARCHAR" property="synopsis" />
     <result column="RELEASE_TIME" jdbcType="TIMESTAMP" property="releaseTime" />
     <result column="READING_TIMES" jdbcType="INTEGER" property="readingTimes" />
     <result column="NEWS_CLASS" jdbcType="VARCHAR" property="newsClass" />
     <result column="TAGS" jdbcType="VARCHAR" property="tags" />
     <result column="AUTHOR" jdbcType="VARCHAR" property="author" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
     <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
     <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
-    <result column="TEXT" jdbcType="LONGVARCHAR" property="text" />
+    <result column="CONTENT" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
 </mapper>

@@ -7,5 +7,9 @@ public enum FileUploadEnum {
     AVATAR,
     FILE,
     CAROUSEL,
-    FIRSTSCREEN
+    FIRSTSCREEN,
+    NEWS,
+    PRODUCT,
+    SOLUTION,
+    CUSTOMERCASE
 }
