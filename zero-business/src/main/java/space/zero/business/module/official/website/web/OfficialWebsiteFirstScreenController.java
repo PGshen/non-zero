@@ -1,5 +1,9 @@
 package space.zero.business.module.official.website.web;
 
+import org.springframework.web.multipart.MultipartFile;
+import space.zero.business.module.official.website.param.request.CondRequest;
+import space.zero.common.utils.FileUploadEnum;
+import space.zero.common.utils.FileUploadUtils;
 import space.zero.core.result.Result;
 import space.zero.core.result.ResultGenerator;
 import space.zero.business.module.official.website.model.OfficialWebsiteFirstScreen;
@@ -9,7 +13,12 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+
+import static space.zero.core.constant.Constant.ENABLE_FLAG_FALSE;
+import static space.zero.core.constant.Constant.ENABLE_FLAG_TRUE;
 
 /**
 * Created by PG_shen on 2018/09/26.
@@ -22,6 +31,7 @@ public class OfficialWebsiteFirstScreenController {
 
     @PostMapping
     public Result add(@RequestBody OfficialWebsiteFirstScreen officialWebsiteFirstScreen) {
+        officialWebsiteFirstScreen.setPic(officialWebsiteFirstScreen.getPic().replace("http://localhost:8088/", ""));
         OfficialWebsiteFirstScreen tmp = officialWebsiteFirstScreenService.save(officialWebsiteFirstScreen);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -34,6 +44,7 @@ public class OfficialWebsiteFirstScreenController {
 
     @PutMapping
     public Result update(@RequestBody OfficialWebsiteFirstScreen officialWebsiteFirstScreen) {
+        officialWebsiteFirstScreen.setPic(officialWebsiteFirstScreen.getPic().replace("http://localhost:8088/", ""));
         OfficialWebsiteFirstScreen tmp = officialWebsiteFirstScreenService.update(officialWebsiteFirstScreen);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -44,11 +55,47 @@ public class OfficialWebsiteFirstScreenController {
         return ResultGenerator.genSuccessResult(officialWebsiteFirstScreen);
     }
 
-    @GetMapping
-    public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
-        PageHelper.startPage(page, size);
-        List<OfficialWebsiteFirstScreen> list = officialWebsiteFirstScreenService.findAll();
+    @PostMapping("/list")
+    public Result list(@RequestBody CondRequest condRequest) {
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        Iterator<String> iterator = condRequest.getCond().keySet().iterator();
+        while (iterator.hasNext()){
+            String key = iterator.next();
+            if ("isEnable".equals(key) && condRequest.getCond().get(key).equals("-1")){
+                iterator.remove();
+            }
+        }
+        List<OfficialWebsiteFirstScreen> list = officialWebsiteFirstScreenService.findBy(condRequest.getCond());
         PageInfo pageInfo = new PageInfo(list);
+        pageInfo.getList().forEach(item -> {
+            OfficialWebsiteFirstScreen firstScreen = (OfficialWebsiteFirstScreen)item;
+            firstScreen.setPic("http://localhost:8088/" + firstScreen.getPic());
+        });
         return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @PostMapping("/checkout/{id}")
+    public Result checkoutStatus(@PathVariable String id){
+        OfficialWebsiteFirstScreen firstScreen = officialWebsiteFirstScreenService.findById(id);
+        if ("1".equals(firstScreen.getIsEnable())){
+            firstScreen.setIsEnable(ENABLE_FLAG_FALSE);
+        }else if ("0".equals(firstScreen.getIsEnable())){
+            firstScreen.setIsEnable(ENABLE_FLAG_TRUE);
+        }
+        officialWebsiteFirstScreenService.update(firstScreen);
+        return ResultGenerator.genSuccessResult(firstScreen);
+    }
+
+    @PostMapping("/upload")
+    public Result upload(@RequestParam("file") MultipartFile file){
+        FileUploadUtils fileUploadUtils = new FileUploadUtils();
+        String filePath = null;
+        try {
+            filePath = "http://localhost:8088/" + fileUploadUtils.uploadFile(file, FileUploadEnum.FIRSTSCREEN);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResultGenerator.genFailResult("fail");
+        }
+        return ResultGenerator.genSuccessResult(filePath, "success");
     }
 }

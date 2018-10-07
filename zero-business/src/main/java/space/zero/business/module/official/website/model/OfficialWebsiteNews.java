@@ -1,12 +1,12 @@
 package space.zero.business.module.official.website.model;
 
-import space.zero.core.model.BaseEntity;
+import space.zero.business.module.official.website.base.WebsiteEntity;
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "official_website_news")
-public class OfficialWebsiteNews extends BaseEntity {
+public class OfficialWebsiteNews extends WebsiteEntity {
     /**
      * 新闻id
      */
@@ -30,8 +30,8 @@ public class OfficialWebsiteNews extends BaseEntity {
     /**
      * 摘要
      */
-    @Column(name = "REMARK")
-    private String remark;
+    @Column(name = "SYNOPSIS")
+    private String synopsis;
 
     /**
      * 发布时间
@@ -62,6 +62,12 @@ public class OfficialWebsiteNews extends BaseEntity {
      */
     @Column(name = "AUTHOR")
     private String author;
+
+    /**
+     * 作者
+     */
+    @Column(name = "STATUS")
+    private String status;
 
     /**
      * 启用标识 1：启用 0：不启用
@@ -96,8 +102,8 @@ public class OfficialWebsiteNews extends BaseEntity {
     /**
      * 正文
      */
-    @Column(name = "TEXT")
-    private String text;
+    @Column(name = "CONTENT")
+    private String content;
 
     /**
      * 获取新闻id
@@ -156,19 +162,19 @@ public class OfficialWebsiteNews extends BaseEntity {
     /**
      * 获取摘要
      *
-     * @return REMARK - 摘要
+     * @return SYNOPSIS - 摘要
      */
-    public String getRemark() {
-        return remark;
+    public String getSynopsis() {
+        return synopsis;
     }
 
     /**
      * 设置摘要
      *
-     * @param remark 摘要
+     * @param synopsis 摘要
      */
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
     }
 
     /**
@@ -259,6 +265,22 @@ public class OfficialWebsiteNews extends BaseEntity {
      */
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    /**
+     * 获取新闻状态
+     * @return STATUS 状态
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * 设置新闻状态
+     * @param status 0:草稿 1:已发布 2:已删除
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**
@@ -354,18 +376,18 @@ public class OfficialWebsiteNews extends BaseEntity {
     /**
      * 获取正文
      *
-     * @return TEXT - 正文
+     * @return CONTENT - 正文
      */
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
 
     /**
      * 设置正文
      *
-     * @param text 正文
+     * @param content 正文
      */
-    public void setText(String text) {
-        this.text = text;
+    public void setContent(String content) {
+        this.content = content;
     }
 }

@@ -21,6 +21,9 @@ public final class Constant {
     public static final String ENABLE_FLAG_FALSE = "0";
     public static final String ENABLE_FLAG_TRUE = "1";
 
+    public static final String WEBSITE_NEWS_STATUS_DELETED = "2";
+    public static final String WEBSITE_NEWS_STATUS_PUBLISHED = "1";
+    public static final String WEBSITE_NEWS_STATUS_DRAFT = "0";
 
 }
 

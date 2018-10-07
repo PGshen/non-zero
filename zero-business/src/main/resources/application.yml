@@ -4,8 +4,12 @@ spring:
   mvc:
 #    404 交给异常处理器处理
     throw-exception-if-no-handler-found: true
+#    静态资源配置,目前写在WebMvcConfigurer.java
+#    static-path-pattern: /**
   resources:
     add-mappings: false
+#    静态资源配置,目前写在WebMvcConfigurer.java
+#    static-locations: file:${}
   http:
 #    编码
     encoding:

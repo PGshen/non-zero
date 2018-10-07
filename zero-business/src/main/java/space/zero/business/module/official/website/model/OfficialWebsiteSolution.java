@@ -1,12 +1,12 @@
 package space.zero.business.module.official.website.model;
 
-import space.zero.core.model.BaseEntity;
+import space.zero.business.module.official.website.base.WebsiteEntity;
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "official_website_solution")
-public class OfficialWebsiteSolution extends BaseEntity {
+public class OfficialWebsiteSolution extends WebsiteEntity {
     /**
      * 解决方案id
      */

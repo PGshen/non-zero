@@ -10,6 +10,9 @@ public class BaseEntity implements Serializable {
     public static final long serialVersionUID = 1L;
     @Transient
     @JsonIgnore
+    protected transient  String id;
+    @Transient
+    @JsonIgnore
     protected transient  String isDelete;
     @Transient
     @JsonIgnore
@@ -17,6 +20,14 @@ public class BaseEntity implements Serializable {
     @Transient
     @JsonIgnore
     protected transient  Date updateTime;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getIsDelete() {
         return isDelete;

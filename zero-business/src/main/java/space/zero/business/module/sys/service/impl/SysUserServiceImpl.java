@@ -140,6 +140,7 @@ public class SysUserServiceImpl extends AbstractDeleteFlagService<SysUser> imple
             data.setId(keyGenerator.getNext());
         }
         data.setCreatedTime(new Timestamp(new Date().getTime()));
+        data.setUpdateTime(new Timestamp(new Date().getTime()));
         return super.preInsert(data);
     }
 
@@ -147,6 +148,7 @@ public class SysUserServiceImpl extends AbstractDeleteFlagService<SysUser> imple
     public boolean preUpdate(SysUser data){
         SysUser sysUser = findById(data.getId());
         data.setCreatedTime(sysUser.getCreatedTime());
+        data.setUpdateTime(new Timestamp(new Date().getTime()));
         return super.preUpdate(data);
     }
 

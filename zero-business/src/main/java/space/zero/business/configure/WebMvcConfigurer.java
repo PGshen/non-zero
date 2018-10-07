@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import space.zero.business.configure.interceptor.LoggerInterceptor;
@@ -49,6 +50,8 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
     @Value("${spring.profiles.active}")
     private String env;//当前激活的配置文件
+    @Value("${website.global.upload.location}")
+    private String upload;
 
     //使用阿里 FastJson 作为JSON MessageConverter
 //    @Override
@@ -74,6 +77,14 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
         mappingJackson2HttpMessageConverter.setPrettyPrint(false);
         mappingJackson2HttpMessageConverter.setObjectMapper(JsonMapper.getInstance());
         return mappingJackson2HttpMessageConverter;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
+        if(!registry.hasMappingForPattern("/upload/**")){
+            registry.addResourceHandler("/upload/**").addResourceLocations("file:"+upload);
+        }
+        super.addResourceHandlers(registry);
     }
 
 

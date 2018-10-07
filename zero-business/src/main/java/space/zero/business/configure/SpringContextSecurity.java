@@ -67,7 +67,7 @@ public class SpringContextSecurity extends WebSecurityConfigurerAdapter implemen
                 .cors()
 //                排除不需要鉴权的
                 .and().authorizeRequests()
-                .antMatchers("/favicon.ico", "/wechat/portal","/act/**","/modeler/**","/diagram-viewer/**","/wechat/login","/wechat/loginPage","/msg/**","/wechat/oauth","/web/**", "/druid/**")
+                .antMatchers("/favicon.ico", "/wechat/portal","/act/**","/modeler/**","/diagram-viewer/**","/wechat/login","/wechat/loginPage","/msg/**","/wechat/oauth","/web/**", "/druid/**", "/upload/**")
                 .permitAll()
                 .and().authorizeRequests()
                 .anyRequest()

@@ -8,5 +8,7 @@ import space.zero.core.service.Service;
  * Created by PG_shen on 2018/09/26.
  */
 public interface OfficialWebsiteBaseInfoService extends Service<OfficialWebsiteBaseInfo> {
+    OfficialWebsiteBaseInfo fetchInfo();
 
+    OfficialWebsiteBaseInfo updateInfo(OfficialWebsiteBaseInfo baseInfo);
 }

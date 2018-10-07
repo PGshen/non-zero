@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.sys.OfficialWebsiteClassMateMapper">
+<mapper namespace="mapper.official.website.OfficialWebsiteClassMateMapper">
   <resultMap id="BaseResultMap" type="space.zero.business.module.official.website.model.OfficialWebsiteClassMate">
     <!--
       WARNING - @mbg.generated
     -->
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
-    <result column="CLASS_VALUE" jdbcType="VARCHAR" property="classValue" />
+    <result column="CLAZZ_NAME" jdbcType="VARCHAR" property="clazzName" />
+    <result column="CLAZZ_VALUE" jdbcType="VARCHAR" property="clazzValue" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
+    <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
   </resultMap>
 </mapper>
