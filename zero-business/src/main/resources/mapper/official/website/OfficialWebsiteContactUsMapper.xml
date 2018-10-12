@@ -12,6 +12,7 @@
     <result column="COOPERATION_EMAIL" jdbcType="VARCHAR" property="cooperationEmail" />
     <result column="HOTLINE" jdbcType="VARCHAR" property="hotline" />
     <result column="ZIP_CODE" jdbcType="VARCHAR" property="zipCode" />
+    <result column="PIC" jdbcType="VARCHAR" property="pic" />
     <result column="IS_ENABLE" jdbcType="VARCHAR" property="isEnable" />
     <result column="IS_DELETE" jdbcType="VARCHAR" property="isDelete" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />

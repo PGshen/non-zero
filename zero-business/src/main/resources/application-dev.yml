@@ -31,4 +31,5 @@ server:
 website:
   global:
     upload:
-      location: /home/pipix/Project/web/non-zero/upload/
+      location: /home/pipix/zero/upload/
+    host: http://111.230.146.130:8088/

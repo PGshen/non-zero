@@ -1,5 +1,6 @@
 package space.zero.business.module.official.website.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import space.zero.business.module.official.website.param.request.CondRequest;
 import space.zero.business.module.official.website.param.response.ClazzListResponse;
@@ -35,10 +36,12 @@ public class OfficialWebsiteCustomerCaseController {
     private OfficialWebsiteCustomerCaseService officialWebsiteCustomerCaseService;
     @Resource
     private OfficialWebsiteClassMateService classMateService;
+    @Value("${website.global.host}")
+    private String host;
 
     @PostMapping
     public Result add(@RequestBody OfficialWebsiteCustomerCase officialWebsiteCustomerCase) {
-        officialWebsiteCustomerCase.setCasePic(officialWebsiteCustomerCase.getCasePic().replace("http://localhost:8088/",""));
+        officialWebsiteCustomerCase.setCasePic(officialWebsiteCustomerCase.getCasePic().replace(host,""));
         OfficialWebsiteCustomerCase tmp = officialWebsiteCustomerCaseService.save(officialWebsiteCustomerCase);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -51,7 +54,7 @@ public class OfficialWebsiteCustomerCaseController {
 
     @PutMapping
     public Result update(@RequestBody OfficialWebsiteCustomerCase officialWebsiteCustomerCase) {
-        officialWebsiteCustomerCase.setCasePic(officialWebsiteCustomerCase.getCasePic().replace("http://localhost:8088/",""));
+        officialWebsiteCustomerCase.setCasePic(officialWebsiteCustomerCase.getCasePic().replace(host,""));
         OfficialWebsiteCustomerCase tmp = officialWebsiteCustomerCaseService.update(officialWebsiteCustomerCase);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -59,7 +62,7 @@ public class OfficialWebsiteCustomerCaseController {
     @GetMapping("/{id}")
     public Result detail(@PathVariable String id) {
         OfficialWebsiteCustomerCase officialWebsiteCustomerCase = officialWebsiteCustomerCaseService.findById(id);
-        officialWebsiteCustomerCase.setCasePic("http://localhost:8088/"+officialWebsiteCustomerCase.getCasePic());
+        officialWebsiteCustomerCase.setCasePic(host+officialWebsiteCustomerCase.getCasePic());
         return ResultGenerator.genSuccessResult(officialWebsiteCustomerCase);
     }
 
@@ -83,7 +86,7 @@ public class OfficialWebsiteCustomerCaseController {
         PageInfo pageInfo = new PageInfo(list);
         pageInfo.getList().forEach(item ->{
             OfficialWebsiteCustomerCase customerCase = (OfficialWebsiteCustomerCase) item;
-            customerCase.setCasePic("http://localhost:8088/"+customerCase.getCasePic());
+            customerCase.setCasePic(host+customerCase.getCasePic());
             customerCase.setCaseClass(customerCaseClazzMap.get(customerCase.getCaseClass()));
         });
         return ResultGenerator.genSuccessResult(pageInfo);
@@ -106,7 +109,7 @@ public class OfficialWebsiteCustomerCaseController {
         FileUploadUtils fileUploadUtils = new FileUploadUtils();
         String filePath = null;
         try {
-            filePath = "http://localhost:8088/" + fileUploadUtils.uploadFile(file, FileUploadEnum.CUSTOMERCASE);
+            filePath = host + fileUploadUtils.uploadFile(file, FileUploadEnum.CUSTOMERCASE);
         } catch (IOException e) {
             e.printStackTrace();
             return ResultGenerator.genFailResult("fail");

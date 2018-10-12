@@ -11,5 +11,7 @@ public enum FileUploadEnum {
     NEWS,
     PRODUCT,
     SOLUTION,
-    CUSTOMERCASE
+    CUSTOMERCASE,
+    CONTACTUS,
+    ABOUTUS
 }

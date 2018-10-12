@@ -1,12 +1,12 @@
 package space.zero.business.module.official.website.model;
 
-import space.zero.core.model.BaseEntity;
+import space.zero.business.module.official.website.base.WebsiteEntity;
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "official_website_contact_us")
-public class OfficialWebsiteContactUs extends BaseEntity {
+public class OfficialWebsiteContactUs extends WebsiteEntity {
     /**
      * 联系我们id
      */
@@ -50,6 +50,12 @@ public class OfficialWebsiteContactUs extends BaseEntity {
      */
     @Column(name = "ZIP_CODE")
     private String zipCode;
+
+    /**
+     * 图片
+     */
+    @Column(name = "PIC")
+    private String pic;
 
     /**
      * 启用标识 1：启用 0：不启用
@@ -205,6 +211,22 @@ public class OfficialWebsiteContactUs extends BaseEntity {
      */
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    /**
+     * 获取图片
+     * @return PIC - 图片
+     */
+    public String getPic() {
+        return pic;
+    }
+
+    /**
+     * 设置图片
+     * @param pic 图片
+     */
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 
     /**
