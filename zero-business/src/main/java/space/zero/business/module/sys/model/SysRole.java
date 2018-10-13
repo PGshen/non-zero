@@ -1,5 +1,6 @@
 package space.zero.business.module.sys.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import space.zero.core.model.BaseEntity;
 
 import java.util.Date;
@@ -41,6 +42,7 @@ public class SysRole extends BaseEntity {
     /**
      * 删除标志（0：禁用   1：删除）
      */
+    @JsonIgnore
     @Column(name = "IS_DELETE")
     private transient String isDelete;
 

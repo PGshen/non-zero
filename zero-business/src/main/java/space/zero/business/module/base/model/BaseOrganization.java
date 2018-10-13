@@ -1,5 +1,6 @@
 package space.zero.business.module.base.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import space.zero.core.model.BaseEntity;
 
 import java.util.Date;
@@ -84,6 +85,7 @@ public class BaseOrganization extends BaseEntity {
     /**
      * 是否删除(1:删除  0:未删除)
      */
+    @JsonIgnore
     @Column(name = "IS_DELETE")
     private String isDelete;
 

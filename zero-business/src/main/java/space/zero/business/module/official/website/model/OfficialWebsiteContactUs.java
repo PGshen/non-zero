@@ -1,5 +1,6 @@
 package space.zero.business.module.official.website.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import space.zero.business.module.official.website.base.WebsiteEntity;
 
 import java.util.Date;
@@ -66,6 +67,7 @@ public class OfficialWebsiteContactUs extends WebsiteEntity {
     /**
      * 删除标识 1：删除 0：未删除
      */
+    @JsonIgnore
     @Column(name = "IS_DELETE")
     private String isDelete;
 
@@ -84,6 +86,7 @@ public class OfficialWebsiteContactUs extends WebsiteEntity {
     /**
      * 最近修改人
      */
+    @JsonIgnore
     @Column(name = "UPDATE_USER")
     private String updateUser;
 

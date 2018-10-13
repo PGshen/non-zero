@@ -77,6 +77,7 @@ public class SysUser extends BaseEntity {
     /**
      * 是否删除
      */
+    @JsonIgnore
     @Column(name = "IS_DELETE")
     private transient String isDelete;
 

@@ -1,5 +1,6 @@
 package space.zero.business.module.official.website.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import space.zero.business.module.official.website.base.WebsiteEntity;
 
 import java.util.Date;
@@ -42,6 +43,7 @@ public class OfficialWebsiteAboutUs extends WebsiteEntity {
     /**
      * 删除标识 1：删除 0：未删除
      */
+    @JsonIgnore
     @Column(name = "IS_DELETE")
     private String isDelete;
 
@@ -60,6 +62,7 @@ public class OfficialWebsiteAboutUs extends WebsiteEntity {
     /**
      * 最近修改人
      */
+    @JsonIgnore
     @Column(name = "UPDATE_USER")
     private String updateUser;
 
@@ -68,6 +71,12 @@ public class OfficialWebsiteAboutUs extends WebsiteEntity {
      */
     @Column(name = "TEXT")
     private String text;
+
+    /**
+     * 图片
+     */
+    @Column(name = "PIC")
+    private String pic;
 
     /**
      * 获取关于我们id
@@ -247,5 +256,21 @@ public class OfficialWebsiteAboutUs extends WebsiteEntity {
      */
     public void setText(String text) {
         this.text = text;
+    }
+
+    /**
+     * 获取图片
+     * @return PIC 图片
+     */
+    public String getPic() {
+        return pic;
+    }
+
+    /**
+     * 设置图片
+     * @param pic 图片
+     */
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 }
