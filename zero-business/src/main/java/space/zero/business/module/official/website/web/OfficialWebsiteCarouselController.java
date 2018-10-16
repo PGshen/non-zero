@@ -73,7 +73,7 @@ public class OfficialWebsiteCarouselController {
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest) {
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         Iterator<String> iterator = condRequest.getCond().keySet().iterator();
         while (iterator.hasNext()){
             String key = iterator.next();

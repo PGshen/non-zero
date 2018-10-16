@@ -1,20 +1,23 @@
 package space.zero.business.module.official.website.web.api;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import space.zero.business.module.official.website.model.OfficialWebsiteBaseInfo;
-import space.zero.business.module.official.website.model.OfficialWebsiteCarousel;
+import org.springframework.web.bind.annotation.*;
+import space.zero.business.module.official.website.model.*;
 import space.zero.business.module.official.website.param.request.CondRequest;
+import space.zero.business.module.official.website.param.response.ClazzListResponse;
 import space.zero.business.module.official.website.service.*;
+import space.zero.core.constant.Constant;
 import space.zero.core.result.Result;
 import space.zero.core.result.ResultGenerator;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA
@@ -44,6 +47,8 @@ public class OfficialWebsiteController {
     private OfficialWebsiteCarouselService carouselService;
     @Resource
     private OfficialWebsiteFirstScreenService firstScreenService;
+    @Resource
+    private OfficialWebsiteClassMateService classMateService;
 
     @Value("${website.global.host}")
     private String host;
@@ -67,7 +72,7 @@ public class OfficialWebsiteController {
     @GetMapping("/carousel")
     public Result carousel(){
         Map map = new HashMap<String, Object>();
-        map.put("isEnable", "1");
+        map.put("isEnable", Constant.ENABLE_FLAG_TRUE);
         List<OfficialWebsiteCarousel> carouselList = carouselService.findBy(map);
         carouselList.forEach(item -> {
             OfficialWebsiteCarousel carousel = (OfficialWebsiteCarousel)item;
@@ -76,5 +81,187 @@ public class OfficialWebsiteController {
         return ResultGenerator.genSuccessResult(carouselList);
     }
 
+    @PostMapping("/first/screen")
+    public Result firstScreen(@RequestBody CondRequest condRequest){
+        List<OfficialWebsiteClassMate> classMateList = classMateService.findBy(condRequest.getCond());
+        if (classMateList.size() < 1) {
+            return ResultGenerator.genFailResult("获取FIRST SCREEN类别失败");
+        }else {
+            OfficialWebsiteFirstScreen firstScreen = firstScreenService.fetchFirstScreen(classMateList.get(0).getId());
+            if (firstScreen == null){
+                return ResultGenerator.genFailResult("获取FIRST SCREEN失败");
+            } else {
+                firstScreen.setPic(host + firstScreen.getPic());
+                return ResultGenerator.genSuccessResult(firstScreen);
+            }
+        }
+    }
 
+    @GetMapping("/contact")
+    public Result contact(){
+        Map map = new HashMap<String, Object>();
+        map.put("isEnable", Constant.ENABLE_FLAG_TRUE);
+        List<OfficialWebsiteContactUs> contactUsList = contactUsService.findBy(map);
+        contactUsList.forEach(item -> {
+            OfficialWebsiteContactUs contactUs = (OfficialWebsiteContactUs)item;
+            contactUs.setPic(host + contactUs.getPic());
+        });
+        return ResultGenerator.genSuccessResult(contactUsList);
+    }
+
+    @PostMapping("/about/us")
+    public Result aboutUs(@RequestBody CondRequest condRequest){
+        List<OfficialWebsiteClassMate> classMateList = classMateService.findBy(condRequest.getCond());
+        if (classMateList.size() < 1){
+            return ResultGenerator.genFailResult("获取ABOUT US类别失败");
+        } else {
+            String clazzId = classMateList.get(0).getId();
+            Map map = condRequest.getCond();
+            map.remove("clazzName");
+            map.remove("clazzValue");
+            map.put("aboutUsClass", clazzId);
+            condRequest.setCond(map);
+            PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
+            List<OfficialWebsiteAboutUs> aboutUsList = aboutUsService.findBy(map);
+            if (aboutUsList.size() < 1){
+                return ResultGenerator.genFailResult("获取关于我们失败");
+            }else {
+                PageInfo pageInfo = new PageInfo(aboutUsList);
+                return ResultGenerator.genSuccessResult(pageInfo.getList().get(0));
+            }
+        }
+    }
+
+    @PostMapping("/news")
+    public Result news(@RequestBody CondRequest condRequest) {
+        Map map = condRequest.getCond();
+        List<OfficialWebsiteClassMate> classMateList = classMateService.findBy(condRequest.getCond());
+        if (classMateList.size() < 1){
+            return ResultGenerator.genFailResult("获取NEWS类别失败");
+        } else {
+            String clazzId = classMateList.get(0).getId();
+            map.remove("clazzName");
+            map.remove("clazzValue");
+            map.put("newsClass", clazzId);
+            map.put("status", Constant.WEBSITE_NEWS_STATUS_PUBLISHED);
+            condRequest.setCond(map);
+            PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
+            List<OfficialWebsiteNews> list = newsService.findBy(condRequest.getCond());
+            if (list.size() < 1) {
+                return ResultGenerator.genFailResult("获取新闻失败");
+            }
+            PageInfo pageInfo = new PageInfo(list);
+            pageInfo.getList().forEach(item -> {
+                OfficialWebsiteNews news = (OfficialWebsiteNews) item;
+                news.setTitlePic(host + news.getTitlePic());
+            });
+            return ResultGenerator.genSuccessResult(pageInfo);
+        }
+    }
+
+    @GetMapping("/news/{id}")
+    public Result newsDetail(@PathVariable String id) {
+        OfficialWebsiteNews officialWebsiteNews = newsService.findById(id);
+        officialWebsiteNews.setTitlePic(host+officialWebsiteNews.getTitlePic());
+        return ResultGenerator.genSuccessResult(officialWebsiteNews);
+    }
+
+    @PostMapping("/solution")
+    public Result solutions(@RequestBody CondRequest condRequest) {
+        Map map = condRequest.getCond();
+        map.put("isEnable", Constant.ENABLE_FLAG_TRUE);
+        condRequest.setCond(map);
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
+        List<OfficialWebsiteSolution> list = solutionService.findBy(condRequest.getCond());
+        if (list.size() < 1) {
+            return ResultGenerator.genFailResult("获取方案失败");
+        }
+        // 获取SOLUTION类别
+        List<ClazzListResponse> solutionClazz = classMateService.findClazz("SOLUTION");
+        Map<String, String> solutionClazzMap = solutionClazz.stream().collect(Collectors.toMap(ClazzListResponse::getId, ClazzListResponse::getClazzValue,(k1, k2)->k1));
+        PageInfo pageInfo = new PageInfo(list);
+        pageInfo.getList().forEach(item -> {
+            OfficialWebsiteSolution solution = (OfficialWebsiteSolution) item;
+            solution.setSolutionPic(host + solution.getSolutionPic());
+            solution.setSolutionClass(solutionClazzMap.get(solution.getSolutionClass()));
+        });
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @GetMapping("/solution/{id}")
+    public Result solutionDetail(@PathVariable String id) {
+        OfficialWebsiteSolution solution = solutionService.findById(id);
+        // 获取SOLUTION类别
+        List<ClazzListResponse> solutionClazz = classMateService.findClazz("SOLUTION");
+        Map<String, String> solutionClazzMap = solutionClazz.stream().collect(Collectors.toMap(ClazzListResponse::getId, ClazzListResponse::getClazzValue,(k1, k2)->k1));
+        solution.setSolutionPic(host + solution.getSolutionPic());
+        solution.setSolutionClass(solutionClazzMap.get(solution.getSolutionClass()));
+        return ResultGenerator.genSuccessResult(solution);
+    }
+
+    @PostMapping("/product")
+    public Result products(@RequestBody CondRequest condRequest) {
+        Map map = condRequest.getCond();
+        map.put("isEnable", Constant.ENABLE_FLAG_TRUE);
+        condRequest.setCond(map);
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
+        List<OfficialWebsiteProduct> list = productService.findBy(condRequest.getCond());
+        if (list.size() < 1) {
+            return ResultGenerator.genFailResult("获取产品失败");
+        }
+        // 获取SOLUTION类别
+        List<ClazzListResponse> productClazz = classMateService.findClazz("PRODUCT");
+        Map<String, String> productClazzMap = productClazz.stream().collect(Collectors.toMap(ClazzListResponse::getId, ClazzListResponse::getClazzValue,(k1, k2)->k1));
+        PageInfo pageInfo = new PageInfo(list);
+        pageInfo.getList().forEach(item -> {
+            OfficialWebsiteProduct product = (OfficialWebsiteProduct) item;
+            product.setProductPic(host + product.getProductPic());
+            product.setProductClass(productClazzMap.get(product.getProductClass()));
+        });
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @GetMapping("/product/{id}")
+    public Result productDetail(@PathVariable String id) {
+        OfficialWebsiteProduct officialWebsiteProduct = productService.findById(id);
+        // 获取SOLUTION类别
+        List<ClazzListResponse> productClazz = classMateService.findClazz("PRODUCT");
+        Map<String, String> productClazzMap = productClazz.stream().collect(Collectors.toMap(ClazzListResponse::getId, ClazzListResponse::getClazzValue,(k1, k2)->k1));
+        officialWebsiteProduct.setProductPic(host + officialWebsiteProduct.getProductPic());
+        officialWebsiteProduct.setProductClass(productClazzMap.get(officialWebsiteProduct.getProductClass()));
+        return ResultGenerator.genSuccessResult(officialWebsiteProduct);
+    }
+
+    @PostMapping("/case")
+    public Result customerCase(@RequestBody CondRequest condRequest) {
+        Map map = condRequest.getCond();
+        map.put("isEnable", Constant.ENABLE_FLAG_TRUE);
+        condRequest.setCond(map);
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
+        List<OfficialWebsiteCustomerCase> list = customerCaseService.findBy(condRequest.getCond());
+        if (list.size() < 1) {
+            return ResultGenerator.genFailResult("获取案例失败");
+        }
+        // 获取SOLUTION类别
+        List<ClazzListResponse> caseClazz = classMateService.findClazz("CASE");
+        Map<String, String> caseClazzMap = caseClazz.stream().collect(Collectors.toMap(ClazzListResponse::getId, ClazzListResponse::getClazzValue,(k1, k2)->k1));
+        PageInfo pageInfo = new PageInfo(list);
+        pageInfo.getList().forEach(item -> {
+            OfficialWebsiteCustomerCase customerCase = (OfficialWebsiteCustomerCase) item;
+            customerCase.setCasePic(host + customerCase.getCasePic());
+            customerCase.setCaseClass(caseClazzMap.get(customerCase.getCaseClass()));
+        });
+        return ResultGenerator.genSuccessResult(pageInfo);
+    }
+
+    @GetMapping("/case/{id}")
+    public Result customerCaseDetail(@PathVariable String id) {
+        OfficialWebsiteCustomerCase officialWebsiteCustomerCase = customerCaseService.findById(id);
+        // 获取SOLUTION类别
+        List<ClazzListResponse> caseClazz = classMateService.findClazz("CASE");
+        Map<String, String> caseClazzMap = caseClazz.stream().collect(Collectors.toMap(ClazzListResponse::getId, ClazzListResponse::getClazzValue,(k1, k2)->k1));
+        officialWebsiteCustomerCase.setCasePic(host + officialWebsiteCustomerCase.getCasePic());
+        officialWebsiteCustomerCase.setCaseClass(caseClazzMap.get(officialWebsiteCustomerCase.getCaseClass()));
+        return ResultGenerator.genSuccessResult(officialWebsiteCustomerCase);
+    }
 }

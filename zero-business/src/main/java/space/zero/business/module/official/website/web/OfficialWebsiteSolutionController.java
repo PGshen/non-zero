@@ -68,7 +68,7 @@ public class OfficialWebsiteSolutionController {
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest) {
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), StringUtils.HumpToUnderline(condRequest.getOrder()) + " desc");
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         Iterator<String> iterator = condRequest.getCond().keySet().iterator();
         while (iterator.hasNext()){
             String key = iterator.next();

@@ -53,7 +53,7 @@ public class SysUserController {
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest){
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         List<SysUser> list = sysUserService.findBy(condRequest.getCond());
         PageInfo pageInfo = new PageInfo(list);
         pageInfo.setOrderBy(condRequest.getOrder());

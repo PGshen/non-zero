@@ -20,4 +20,8 @@ public class OfficialWebsiteFirstScreenServiceImpl extends WebsiteDeleteFlagServ
     @Resource
     private OfficialWebsiteFirstScreenMapper officialWebsiteFirstScreenMapper;
 
+    @Override
+    public OfficialWebsiteFirstScreen fetchFirstScreen(String clazz) {
+        return officialWebsiteFirstScreenMapper.fetchFirstScreen(clazz);
+    }
 }
