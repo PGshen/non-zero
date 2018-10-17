@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import space.zero.business.module.official.website.model.*;
 import space.zero.business.module.official.website.param.request.CondRequest;
 import space.zero.business.module.official.website.param.response.ClazzListResponse;
+import space.zero.business.module.official.website.param.response.NewsDetailResponse;
 import space.zero.business.module.official.website.service.*;
 import space.zero.core.constant.Constant;
 import space.zero.core.result.Result;
@@ -163,7 +164,14 @@ public class OfficialWebsiteController {
     public Result newsDetail(@PathVariable String id) {
         OfficialWebsiteNews officialWebsiteNews = newsService.findById(id);
         officialWebsiteNews.setTitlePic(host+officialWebsiteNews.getTitlePic());
-        return ResultGenerator.genSuccessResult(officialWebsiteNews);
+        String newsClazz = officialWebsiteNews.getNewsClass();
+        OfficialWebsiteNews nextNews = newsService.getNextNews(id, newsClazz);
+        OfficialWebsiteNews previousNews = newsService.getPreviousNews(id, newsClazz);
+        NewsDetailResponse response = new NewsDetailResponse();
+        response.setNews(officialWebsiteNews);
+        response.setNext(nextNews);
+        response.setPrevious(previousNews);
+        return ResultGenerator.genSuccessResult(response);
     }
 
     @PostMapping("/solution")
