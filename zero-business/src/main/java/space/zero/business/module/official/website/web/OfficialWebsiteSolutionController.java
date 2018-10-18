@@ -1,5 +1,6 @@
 package space.zero.business.module.official.website.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import space.zero.business.module.official.website.param.request.CondRequest;
 import space.zero.business.module.official.website.param.response.ClazzListResponse;
@@ -35,10 +36,12 @@ public class OfficialWebsiteSolutionController {
     private OfficialWebsiteSolutionService officialWebsiteSolutionService;
     @Resource
     private OfficialWebsiteClassMateService classMateService;
+    @Value("${website.global.host}")
+    private String host;
 
     @PostMapping
     public Result add(@RequestBody OfficialWebsiteSolution officialWebsiteSolution) {
-        officialWebsiteSolution.setSolutionPic(officialWebsiteSolution.getSolutionPic().replace("http://localhost:8088/",""));
+        officialWebsiteSolution.setSolutionPic(officialWebsiteSolution.getSolutionPic().replace(host,""));
         OfficialWebsiteSolution tmp = officialWebsiteSolutionService.save(officialWebsiteSolution);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -51,7 +54,7 @@ public class OfficialWebsiteSolutionController {
 
     @PutMapping
     public Result update(@RequestBody OfficialWebsiteSolution officialWebsiteSolution) {
-        officialWebsiteSolution.setSolutionPic(officialWebsiteSolution.getSolutionPic().replace("http://localhost:8088/",""));
+        officialWebsiteSolution.setSolutionPic(officialWebsiteSolution.getSolutionPic().replace(host,""));
         OfficialWebsiteSolution tmp = officialWebsiteSolutionService.update(officialWebsiteSolution);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -59,13 +62,13 @@ public class OfficialWebsiteSolutionController {
     @GetMapping("/{id}")
     public Result detail(@PathVariable String id) {
         OfficialWebsiteSolution officialWebsiteSolution = officialWebsiteSolutionService.findById(id);
-        officialWebsiteSolution.setSolutionPic("http://localhost:8088/" + officialWebsiteSolution.getSolutionPic());
+        officialWebsiteSolution.setSolutionPic(host + officialWebsiteSolution.getSolutionPic());
         return ResultGenerator.genSuccessResult(officialWebsiteSolution);
     }
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest) {
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), StringUtils.HumpToUnderline(condRequest.getOrder()) + " desc");
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         Iterator<String> iterator = condRequest.getCond().keySet().iterator();
         while (iterator.hasNext()){
             String key = iterator.next();
@@ -83,7 +86,7 @@ public class OfficialWebsiteSolutionController {
         PageInfo pageInfo = new PageInfo(list);
         pageInfo.getList().forEach(item ->{
             OfficialWebsiteSolution solution = (OfficialWebsiteSolution) item;
-            solution.setSolutionPic("http://localhost:8088/"+solution.getSolutionPic());
+            solution.setSolutionPic(host+solution.getSolutionPic());
             solution.setSolutionClass(solutionClazzMap.get(solution.getSolutionClass()));
         });
         return ResultGenerator.genSuccessResult(pageInfo);
@@ -106,7 +109,7 @@ public class OfficialWebsiteSolutionController {
         FileUploadUtils fileUploadUtils = new FileUploadUtils();
         String filePath = null;
         try {
-            filePath = "http://localhost:8088/" + fileUploadUtils.uploadFile(file, FileUploadEnum.SOLUTION);
+            filePath = host + fileUploadUtils.uploadFile(file, FileUploadEnum.SOLUTION);
         } catch (IOException e) {
             e.printStackTrace();
             return ResultGenerator.genFailResult("fail");

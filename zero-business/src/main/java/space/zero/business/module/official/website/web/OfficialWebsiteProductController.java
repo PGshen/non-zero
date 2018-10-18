@@ -1,7 +1,7 @@
 package space.zero.business.module.official.website.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
-import space.zero.business.module.official.website.model.OfficialWebsiteNews;
 import space.zero.business.module.official.website.param.request.CondRequest;
 import space.zero.business.module.official.website.param.response.ClazzListResponse;
 import space.zero.business.module.official.website.service.OfficialWebsiteClassMateService;
@@ -36,10 +36,12 @@ public class OfficialWebsiteProductController {
 
     @Resource
     private OfficialWebsiteClassMateService classMateService;
+    @Value("${website.global.host}")
+    private String host;
 
     @PostMapping
     public Result add(@RequestBody OfficialWebsiteProduct officialWebsiteProduct) {
-        officialWebsiteProduct.setProductPic(officialWebsiteProduct.getProductPic().replace("http://localhost:8088/", ""));
+        officialWebsiteProduct.setProductPic(officialWebsiteProduct.getProductPic().replace(host, ""));
         OfficialWebsiteProduct tmp = officialWebsiteProductService.save(officialWebsiteProduct);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -52,7 +54,7 @@ public class OfficialWebsiteProductController {
 
     @PutMapping
     public Result update(@RequestBody OfficialWebsiteProduct officialWebsiteProduct) {
-        officialWebsiteProduct.setProductPic(officialWebsiteProduct.getProductPic().replace("http://localhost:8088/",""));
+        officialWebsiteProduct.setProductPic(officialWebsiteProduct.getProductPic().replace(host,""));
         OfficialWebsiteProduct tmp = officialWebsiteProductService.update(officialWebsiteProduct);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -60,13 +62,13 @@ public class OfficialWebsiteProductController {
     @GetMapping("/{id}")
     public Result detail(@PathVariable String id) {
         OfficialWebsiteProduct officialWebsiteProduct = officialWebsiteProductService.findById(id);
-        officialWebsiteProduct.setProductPic("http://localhost:8088/"+officialWebsiteProduct.getProductPic());
+        officialWebsiteProduct.setProductPic(host+officialWebsiteProduct.getProductPic());
         return ResultGenerator.genSuccessResult(officialWebsiteProduct);
     }
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest) {
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), StringUtils.HumpToUnderline(condRequest.getOrder()) + " desc");
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         Iterator<String> iterator = condRequest.getCond().keySet().iterator();
         while (iterator.hasNext()){
             String key = iterator.next();
@@ -84,7 +86,7 @@ public class OfficialWebsiteProductController {
         PageInfo pageInfo = new PageInfo(list);
         pageInfo.getList().forEach(item ->{
             OfficialWebsiteProduct product = (OfficialWebsiteProduct) item;
-            product.setProductPic("http://localhost:8088/"+product.getProductPic());
+            product.setProductPic(host+product.getProductPic());
             product.setProductClass(productClazzMap.get(product.getProductClass()));
         });
         return ResultGenerator.genSuccessResult(pageInfo);
@@ -107,7 +109,7 @@ public class OfficialWebsiteProductController {
         FileUploadUtils fileUploadUtils = new FileUploadUtils();
         String filePath = null;
         try {
-            filePath = "http://localhost:8088/" + fileUploadUtils.uploadFile(file, FileUploadEnum.PRODUCT);
+            filePath = host + fileUploadUtils.uploadFile(file, FileUploadEnum.PRODUCT);
         } catch (IOException e) {
             e.printStackTrace();
             return ResultGenerator.genFailResult("fail");

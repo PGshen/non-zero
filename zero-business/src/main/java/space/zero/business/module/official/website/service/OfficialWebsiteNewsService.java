@@ -9,4 +9,7 @@ import space.zero.core.service.Service;
  */
 public interface OfficialWebsiteNewsService extends Service<OfficialWebsiteNews> {
 
+    OfficialWebsiteNews getNextNews(String id, String newsClazz);
+
+    OfficialWebsiteNews getPreviousNews(String id, String newsClazz);
 }

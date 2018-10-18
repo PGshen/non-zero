@@ -1,5 +1,6 @@
 package space.zero.business.module.official.website.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import space.zero.business.module.official.website.base.WebsiteEntity;
 
 import java.util.Date;
@@ -36,6 +37,7 @@ public class OfficialWebsiteClassMate extends WebsiteEntity {
     /**
      * 是否删除1:删除 0:未删除
      */
+    @JsonIgnore
     @Column(name = "IS_DELETE")
     private String isDelete;
 
@@ -60,6 +62,7 @@ public class OfficialWebsiteClassMate extends WebsiteEntity {
     /**
      * 最近修改人
      */
+    @JsonIgnore
     @Column(name = "UPDATE_USER")
     private String updateUser;
 

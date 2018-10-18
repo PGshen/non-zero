@@ -15,7 +15,7 @@ import java.util.UUID;
 public class FileUploadUtils {
 
 //    @Value("${website.global.upload.location}")
-    private String fileLocation = "/home/pipix/Project/web/non-zero/upload";
+    private String fileLocation = "/home/pipix/zero/upload";
 
     /**
      * 上传文件
@@ -48,6 +48,10 @@ public class FileUploadUtils {
             filePath = "/solution/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
         }else if (fileUploadEnum == FileUploadEnum.CUSTOMERCASE){
             filePath = "/customercase/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
+        }else if (fileUploadEnum == FileUploadEnum.CONTACTUS){
+            filePath = "/contactus/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
+        }else if (fileUploadEnum == FileUploadEnum.ABOUTUS){
+            filePath = "/aboutus/" + yearDir + "/" + monthDir + "/" + getFileName(file.getOriginalFilename());
         }
 
         String realPath = fileLocation + filePath;

@@ -19,4 +19,13 @@ public class OfficialWebsiteNewsServiceImpl extends WebsiteDeleteFlagService<Off
     @Resource
     private OfficialWebsiteNewsMapper officialWebsiteNewsMapper;
 
+    @Override
+    public OfficialWebsiteNews getNextNews(String id, String newsClazz) {
+        return officialWebsiteNewsMapper.getNextNews(id, newsClazz);
+    }
+
+    @Override
+    public OfficialWebsiteNews getPreviousNews(String id, String newsClazz) {
+        return officialWebsiteNewsMapper.getPreviousNews(id, newsClazz);
+    }
 }

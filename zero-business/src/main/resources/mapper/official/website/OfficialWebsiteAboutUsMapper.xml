@@ -15,5 +15,6 @@
     <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
     <result column="TEXT" jdbcType="LONGVARCHAR" property="text" />
+    <result column="PIC" jdbcType="VARCHAR" property="pic" />
   </resultMap>
 </mapper>

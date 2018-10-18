@@ -51,7 +51,7 @@ public class OfficialWebsiteClassMateController {
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest) {
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         List<OfficialWebsiteClassMate> list = officialWebsiteClassMateService.findBy(condRequest.getCond());
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);

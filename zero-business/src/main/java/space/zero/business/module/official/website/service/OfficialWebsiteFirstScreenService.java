@@ -8,5 +8,6 @@ import space.zero.core.service.Service;
  * Created by PG_shen on 2018/09/26.
  */
 public interface OfficialWebsiteFirstScreenService extends Service<OfficialWebsiteFirstScreen> {
+    OfficialWebsiteFirstScreen fetchFirstScreen(String clazz);
 
 }

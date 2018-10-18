@@ -55,7 +55,7 @@ public class BaseOrganizationController {
 
     @PostMapping("list")
     public Result list(@RequestBody CondRequest condRequest) {
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         List<BaseOrganization> list = baseOrganizationService.findBy(condRequest.getCond());
         PageInfo pageInfo = new PageInfo(list);
         pageInfo.setOrderBy(condRequest.getOrder());

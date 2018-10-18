@@ -1,5 +1,6 @@
 package space.zero.business.module.official.website.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import space.zero.business.module.official.website.param.request.CondRequest;
 import space.zero.common.utils.FileUploadEnum;
@@ -28,10 +29,12 @@ import static space.zero.core.constant.Constant.ENABLE_FLAG_TRUE;
 public class OfficialWebsiteFirstScreenController {
     @Resource
     private OfficialWebsiteFirstScreenService officialWebsiteFirstScreenService;
+    @Value("${website.global.host}")
+    private String host;
 
     @PostMapping
     public Result add(@RequestBody OfficialWebsiteFirstScreen officialWebsiteFirstScreen) {
-        officialWebsiteFirstScreen.setPic(officialWebsiteFirstScreen.getPic().replace("http://localhost:8088/", ""));
+        officialWebsiteFirstScreen.setPic(officialWebsiteFirstScreen.getPic().replace(host, ""));
         OfficialWebsiteFirstScreen tmp = officialWebsiteFirstScreenService.save(officialWebsiteFirstScreen);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -44,7 +47,7 @@ public class OfficialWebsiteFirstScreenController {
 
     @PutMapping
     public Result update(@RequestBody OfficialWebsiteFirstScreen officialWebsiteFirstScreen) {
-        officialWebsiteFirstScreen.setPic(officialWebsiteFirstScreen.getPic().replace("http://localhost:8088/", ""));
+        officialWebsiteFirstScreen.setPic(officialWebsiteFirstScreen.getPic().replace(host, ""));
         OfficialWebsiteFirstScreen tmp = officialWebsiteFirstScreenService.update(officialWebsiteFirstScreen);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -57,7 +60,7 @@ public class OfficialWebsiteFirstScreenController {
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest) {
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         Iterator<String> iterator = condRequest.getCond().keySet().iterator();
         while (iterator.hasNext()){
             String key = iterator.next();
@@ -69,7 +72,7 @@ public class OfficialWebsiteFirstScreenController {
         PageInfo pageInfo = new PageInfo(list);
         pageInfo.getList().forEach(item -> {
             OfficialWebsiteFirstScreen firstScreen = (OfficialWebsiteFirstScreen)item;
-            firstScreen.setPic("http://localhost:8088/" + firstScreen.getPic());
+            firstScreen.setPic(host + firstScreen.getPic());
         });
         return ResultGenerator.genSuccessResult(pageInfo);
     }
@@ -77,9 +80,9 @@ public class OfficialWebsiteFirstScreenController {
     @PostMapping("/checkout/{id}")
     public Result checkoutStatus(@PathVariable String id){
         OfficialWebsiteFirstScreen firstScreen = officialWebsiteFirstScreenService.findById(id);
-        if ("1".equals(firstScreen.getIsEnable())){
+        if (ENABLE_FLAG_TRUE.equals(firstScreen.getIsEnable())){
             firstScreen.setIsEnable(ENABLE_FLAG_FALSE);
-        }else if ("0".equals(firstScreen.getIsEnable())){
+        }else if (ENABLE_FLAG_FALSE.equals(firstScreen.getIsEnable())){
             firstScreen.setIsEnable(ENABLE_FLAG_TRUE);
         }
         officialWebsiteFirstScreenService.update(firstScreen);
@@ -91,7 +94,7 @@ public class OfficialWebsiteFirstScreenController {
         FileUploadUtils fileUploadUtils = new FileUploadUtils();
         String filePath = null;
         try {
-            filePath = "http://localhost:8088/" + fileUploadUtils.uploadFile(file, FileUploadEnum.FIRSTSCREEN);
+            filePath = host + fileUploadUtils.uploadFile(file, FileUploadEnum.FIRSTSCREEN);
         } catch (IOException e) {
             e.printStackTrace();
             return ResultGenerator.genFailResult("fail");

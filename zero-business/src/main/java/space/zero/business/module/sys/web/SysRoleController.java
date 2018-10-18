@@ -62,7 +62,7 @@ public class SysRoleController {
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest){
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         List<SysRole> list = sysRoleService.findBy(condRequest.getCond());
         PageInfo pageInfo = new PageInfo(list);
         pageInfo.setOrderBy(condRequest.getOrder());

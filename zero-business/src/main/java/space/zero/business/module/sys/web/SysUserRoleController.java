@@ -56,7 +56,7 @@ public class SysUserRoleController {
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest){
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         List<SysUserRole> list = sysUserRoleService.findBy(condRequest.getCond());
         PageInfo pageInfo = new PageInfo(list);
         pageInfo.setOrderBy(condRequest.getOrder());

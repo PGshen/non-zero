@@ -1,7 +1,7 @@
 package space.zero.business.module.official.website.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
-import space.zero.business.module.official.website.model.OfficialWebsiteBaseInfo;
 import space.zero.business.module.official.website.param.request.CondRequest;
 import space.zero.common.utils.FileUploadEnum;
 import space.zero.common.utils.FileUploadUtils;
@@ -29,10 +29,12 @@ import static space.zero.core.constant.Constant.ENABLE_FLAG_TRUE;
 public class OfficialWebsiteCarouselController {
     @Resource
     private OfficialWebsiteCarouselService officialWebsiteCarouselService;
+    @Value("${website.global.host}")
+    private String host;
 
     @PostMapping
     public Result add(@RequestBody OfficialWebsiteCarousel officialWebsiteCarousel) {
-        officialWebsiteCarousel.setPic(officialWebsiteCarousel.getPic().replace("http://localhost:8088/",""));
+        officialWebsiteCarousel.setPic(officialWebsiteCarousel.getPic().replace(host,""));
         OfficialWebsiteCarousel tmp = officialWebsiteCarouselService.save(officialWebsiteCarousel);
         return ResultGenerator.genSuccessResult(tmp);
     }
@@ -45,9 +47,9 @@ public class OfficialWebsiteCarouselController {
 
     @PutMapping
     public Result update(@RequestBody OfficialWebsiteCarousel officialWebsiteCarousel) {
-        officialWebsiteCarousel.setPic(officialWebsiteCarousel.getPic().replace("http://localhost:8088/",""));
+        officialWebsiteCarousel.setPic(officialWebsiteCarousel.getPic().replace(host,""));
         OfficialWebsiteCarousel tmp = officialWebsiteCarouselService.update(officialWebsiteCarousel);
-//        tmp.setPic("http://localhost:8088/" + tmp.getPic());
+//        tmp.setPic(host + tmp.getPic());
         return ResultGenerator.genSuccessResult(tmp);
     }
 
@@ -60,9 +62,9 @@ public class OfficialWebsiteCarouselController {
     @PostMapping("/checkout/{id}")
     public Result checkoutStatus(@PathVariable String id){
         OfficialWebsiteCarousel carousel = officialWebsiteCarouselService.findById(id);
-        if ("1".equals(carousel.getIsEnable())){
+        if (ENABLE_FLAG_TRUE.equals(carousel.getIsEnable())){
             carousel.setIsEnable(ENABLE_FLAG_FALSE);
-        }else if ("0".equals(carousel.getIsEnable())){
+        }else if (ENABLE_FLAG_FALSE.equals(carousel.getIsEnable())){
             carousel.setIsEnable(ENABLE_FLAG_TRUE);
         }
         officialWebsiteCarouselService.update(carousel);
@@ -71,7 +73,7 @@ public class OfficialWebsiteCarouselController {
 
     @PostMapping("/list")
     public Result list(@RequestBody CondRequest condRequest) {
-        PageHelper.startPage(condRequest.getPage(), condRequest.getSize());
+        PageHelper.startPage(condRequest.getPage(), condRequest.getSize(), condRequest.getOrder());
         Iterator<String> iterator = condRequest.getCond().keySet().iterator();
         while (iterator.hasNext()){
             String key = iterator.next();
@@ -88,7 +90,7 @@ public class OfficialWebsiteCarouselController {
         pageInfo.getList().forEach(item ->{
             OfficialWebsiteCarousel carousel = (OfficialWebsiteCarousel)item;
 //            carousel.setDescription(carousel.getDescription().substring(0, carousel.getDescription().length() > 45 ? 45 : carousel.getDescription().length()) + "...");
-            carousel.setPic("http://localhost:8088/"+carousel.getPic());
+            carousel.setPic(host+carousel.getPic());
         });
         return ResultGenerator.genSuccessResult(pageInfo);
     }
@@ -98,7 +100,7 @@ public class OfficialWebsiteCarouselController {
         FileUploadUtils fileUploadUtils = new FileUploadUtils();
         String filePath = null;
         try {
-            filePath = "http://localhost:8088/" + fileUploadUtils.uploadFile(file, FileUploadEnum.CAROUSEL);
+            filePath = host + fileUploadUtils.uploadFile(file, FileUploadEnum.CAROUSEL);
         } catch (IOException e) {
             e.printStackTrace();
             return ResultGenerator.genFailResult("fail");
