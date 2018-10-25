@@ -2,6 +2,8 @@ package space.zero.business.module.official.website.web.api;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import space.zero.business.module.official.website.model.*;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/official/website")
 public class OfficialWebsiteController {
+    private final static Logger logger = LoggerFactory.getLogger(OfficialWebsiteController.class);
     @Resource
     private OfficialWebsiteBaseInfoService baseInfoService;
     @Resource
@@ -63,6 +66,7 @@ public class OfficialWebsiteController {
         OfficialWebsiteBaseInfo officialWebsiteBaseInfo = baseInfoService.fetchInfo();
         officialWebsiteBaseInfo.setLogoUrl(host+ officialWebsiteBaseInfo.getLogoUrl());
         officialWebsiteBaseInfo.setQrCodeUrl(host + officialWebsiteBaseInfo.getQrCodeUrl());
+        logger.info("get website base info ", officialWebsiteBaseInfo);
         return ResultGenerator.genSuccessResult(officialWebsiteBaseInfo);
     }
 
@@ -79,6 +83,7 @@ public class OfficialWebsiteController {
             OfficialWebsiteCarousel carousel = (OfficialWebsiteCarousel)item;
             carousel.setPic(host + carousel.getPic());
         });
+        logger.info("get website carousel list ", carouselList);
         return ResultGenerator.genSuccessResult(carouselList);
     }
 
@@ -93,6 +98,7 @@ public class OfficialWebsiteController {
                 return ResultGenerator.genFailResult("获取FIRST SCREEN失败");
             } else {
                 firstScreen.setPic(host + firstScreen.getPic());
+                logger.info("get website first screen - " + condRequest.getCond().get("clazzName"), firstScreen);
                 return ResultGenerator.genSuccessResult(firstScreen);
             }
         }
@@ -107,6 +113,7 @@ public class OfficialWebsiteController {
             OfficialWebsiteContactUs contactUs = (OfficialWebsiteContactUs)item;
             contactUs.setPic(host + contactUs.getPic());
         });
+        logger.info("get website contact info ", contactUsList);
         return ResultGenerator.genSuccessResult(contactUsList);
     }
 
@@ -128,6 +135,7 @@ public class OfficialWebsiteController {
                 return ResultGenerator.genFailResult("获取关于我们失败");
             }else {
                 PageInfo pageInfo = new PageInfo(aboutUsList);
+                logger.info("get website about us info list ", aboutUsList);
                 return ResultGenerator.genSuccessResult(pageInfo.getList().get(0));
             }
         }
@@ -156,6 +164,7 @@ public class OfficialWebsiteController {
                 OfficialWebsiteNews news = (OfficialWebsiteNews) item;
                 news.setTitlePic(host + news.getTitlePic());
             });
+            logger.info("get website news list info ", list);
             return ResultGenerator.genSuccessResult(pageInfo);
         }
     }
@@ -171,6 +180,7 @@ public class OfficialWebsiteController {
         response.setNews(officialWebsiteNews);
         response.setNext(nextNews);
         response.setPrevious(previousNews);
+        logger.info("get website news detail info - " + id);
         return ResultGenerator.genSuccessResult(response);
     }
 
@@ -193,6 +203,7 @@ public class OfficialWebsiteController {
             solution.setSolutionPic(host + solution.getSolutionPic());
             solution.setSolutionClass(solutionClazzMap.get(solution.getSolutionClass()));
         });
+        logger.info("get website solution list");
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
@@ -204,6 +215,7 @@ public class OfficialWebsiteController {
         Map<String, String> solutionClazzMap = solutionClazz.stream().collect(Collectors.toMap(ClazzListResponse::getId, ClazzListResponse::getClazzValue,(k1, k2)->k1));
         solution.setSolutionPic(host + solution.getSolutionPic());
         solution.setSolutionClass(solutionClazzMap.get(solution.getSolutionClass()));
+        logger.info("get website solution detail info - " + id);
         return ResultGenerator.genSuccessResult(solution);
     }
 
@@ -226,6 +238,7 @@ public class OfficialWebsiteController {
             product.setProductPic(host + product.getProductPic());
             product.setProductClass(productClazzMap.get(product.getProductClass()));
         });
+        logger.info("get website product list");
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
@@ -237,6 +250,7 @@ public class OfficialWebsiteController {
         Map<String, String> productClazzMap = productClazz.stream().collect(Collectors.toMap(ClazzListResponse::getId, ClazzListResponse::getClazzValue,(k1, k2)->k1));
         officialWebsiteProduct.setProductPic(host + officialWebsiteProduct.getProductPic());
         officialWebsiteProduct.setProductClass(productClazzMap.get(officialWebsiteProduct.getProductClass()));
+        logger.info("get website product detail info - " + id);
         return ResultGenerator.genSuccessResult(officialWebsiteProduct);
     }
 
@@ -259,6 +273,7 @@ public class OfficialWebsiteController {
             customerCase.setCasePic(host + customerCase.getCasePic());
             customerCase.setCaseClass(caseClazzMap.get(customerCase.getCaseClass()));
         });
+        logger.info("get website customer case list");
         return ResultGenerator.genSuccessResult(pageInfo);
     }
 
@@ -270,6 +285,7 @@ public class OfficialWebsiteController {
         Map<String, String> caseClazzMap = caseClazz.stream().collect(Collectors.toMap(ClazzListResponse::getId, ClazzListResponse::getClazzValue,(k1, k2)->k1));
         officialWebsiteCustomerCase.setCasePic(host + officialWebsiteCustomerCase.getCasePic());
         officialWebsiteCustomerCase.setCaseClass(caseClazzMap.get(officialWebsiteCustomerCase.getCaseClass()));
+        logger.info("get website customer case detail info - " + id);
         return ResultGenerator.genSuccessResult(officialWebsiteCustomerCase);
     }
 }

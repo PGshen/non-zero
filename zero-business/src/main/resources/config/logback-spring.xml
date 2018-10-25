@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<configuration debug="false" scan="true" scanPeriod="1 seconds">
+<configuration debug="false" scan="true" scanPeriod="60 seconds">
     <springProfile name="pro">
         <!-- configuration to be enabled when the "pro" profile is active -->
-        <property name="log.path" value="./logs/zero-center" />
+        <property name="log.path" value="./logs/zero-business.log" />
         <contextName>zero-center</contextName>
 
         <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -20,31 +20,34 @@
                   class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>${log.path}</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <fileNamePattern>${log.path}/logback.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <fileNamePattern>logs/history/zero-business.%d{yyyyMMdd}.%i.log</fileNamePattern>
                 <maxHistory>30</maxHistory>
-                <totalSizeCap>1GB</totalSizeCap>
+                <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
             </rollingPolicy>
             <encoder>
                 <pattern>%-4relative %d{yyyy-MM-dd HH:mm:ss.SSS}-[%thread] %highlight(%-5level) %cyan(%class)-%msg%n</pattern>
+                <charset>UTF-8</charset>
             </encoder>
         </appender>
 
-        <root level="warn">
+        <root level="info">
             <appender-ref ref="console" />
             <appender-ref ref="file" />
         </root>
 
-        <logger name="space.zero" level="warn" addtivity="false" >
+        <logger name="space.zero" level="info" addtivity="false" >
             <appender-ref ref="file" />
         </logger>
-        <logger name="java.sql" level="warn" addtivity="false" >
+        <logger name="java.sql" level="info" addtivity="false" >
             <appender-ref ref="file" />
         </logger>
     </springProfile>
 
     <springProfile name="dev">
         <!-- configuration to be enabled when the "dev" profile is active -->
-        <property name="log.path" value="./logs/zero-center" />
+        <property name="log.path" value="./logs/zero-business.log" />
         <contextName>zero-center</contextName>
 
         <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -61,26 +64,30 @@
                   class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>${log.path}</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <fileNamePattern>${log.path}/logback.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <fileNamePattern>logs/history/zero-business.%d{yyyyMMdd}.%i.log</fileNamePattern>
                 <maxHistory>30</maxHistory>
-                <totalSizeCap>1GB</totalSizeCap>
+                <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
             </rollingPolicy>
             <encoder>
                 <pattern>%-4relative %d{yyyy-MM-dd HH:mm:ss.SSS}-[%thread] %highlight(%-5level) %cyan(%class)-%msg%n</pattern>
+                <charset>UTF-8</charset>
             </encoder>
         </appender>
 
-        <root level="warn">
+        <!--<root level="warn">-->
             <!--<appender-ref ref="console" />-->
-            <appender-ref ref="file" />
-        </root>
+            <!--<appender-ref ref="file" />-->
+        <!--</root>-->
         <root level="info">
             <appender-ref ref="console" />
             <!--<appender-ref ref="file" />-->
         </root>
 
-        <logger name="space.zero" level="debug" addtivity="true" >
+        <logger name="space.zero" level="debug" addtivity="false" >
             <appender-ref ref="file" />
+            <appender-ref ref="console" />
         </logger>
         <!--<logger name="org.springframework" level="info" addtivity="true" >-->
             <!--<appender-ref ref="file" />-->
